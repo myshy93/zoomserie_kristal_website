@@ -62,7 +62,7 @@ The products in `src/content/products/` that are marked "(exemplu)" are samples.
 
   Until everything is set, submissions still work and the email is skipped with a warning.
 - **DB**: `npm run db:migrate:local` / `db:migrate:remote` apply `migrations/`.
-- **GDPR cleanup**: a separate Worker in `workers/cleanup` runs a daily cron at 03:00 UTC. It deletes rejected/abandoned rows after 30 days and fulfilled rows after 1 year, deleting the R2 photos first. Deploy it with `npm run cleanup:deploy`. To test locally, run `npm run cleanup:dev`, then `curl "http://localhost:8787/__scheduled"`.
+- **GDPR cleanup**: a separate Worker in `workers/cleanup` runs a daily cron at 03:00 UTC. For now it deletes every order and quote request 90 days after creation, whatever the status, since there's no admin UI to change statuses yet. The R2 photos are deleted first. Once statuses are managed, the plan is 30 days for rejected/abandoned and 1 year for fulfilled. Deploy it with `npm run cleanup:deploy`. To test locally, run `npm run cleanup:dev`, then `curl "http://localhost:8787/__scheduled"`.
 
 ## Not done yet
 
