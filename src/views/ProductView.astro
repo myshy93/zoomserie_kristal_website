@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Photo from '../components/Photo.astro';
-import OrderForm from '../components/OrderForm.astro';
+import AddToCart from '../components/AddToCart.astro';
 import { categoryUrl, productImages, productUrl, type Category, type Product } from '../lib/catalog';
 import { formatPrice, localized, path, useTranslations, type Lang } from '../i18n/utils';
 
@@ -107,6 +107,6 @@ const nutritionRows = [
       </div>
     </div>
 
-    {p.orderType === 'standard' && <div class="mt-12 max-w-3xl"><OrderForm lang={lang} product={product} /></div>}
+    {p.orderType === 'standard' && <div class="mt-12 max-w-3xl"><AddToCart lang={lang} product={product} /></div>}
   </article>
 </BaseLayout>

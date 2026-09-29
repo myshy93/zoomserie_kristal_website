@@ -22,6 +22,7 @@ export const routes = {
   gallery: { ro: '/galerie', en: '/en/gallery' },
   contact: { ro: '/contact', en: '/en/contact' },
   quote: { ro: '/cere-oferta', en: '/en/request-quote' },
+  cart: { ro: '/cos', en: '/en/cart' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type RouteKey = keyof typeof routes;

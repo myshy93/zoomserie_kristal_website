@@ -57,6 +57,18 @@ const isActive = (href: string) => current === href || current.startsWith(`${hre
         {languages[otherLang(lang)]}
       </a>
       <a
+        href={path('cart', lang)}
+        class="relative inline-flex items-center gap-1 text-sm font-medium hover:text-berry"
+        aria-label={t('cart.nav')}
+      >
+        <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M3 4h2l2.4 11h10.2L20 7H6.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          <circle cx="9" cy="19.5" r="1.2"></circle>
+          <circle cx="17" cy="19.5" r="1.2"></circle>
+        </svg>
+        <span class="rounded-full bg-berry px-1.5 text-xs font-semibold text-white" data-cart-count hidden></span>
+      </a>
+      <a
         href={path('quote', lang)}
         class="hidden rounded-full bg-berry px-4 py-2 text-sm font-semibold text-white hover:bg-berry-dark sm:inline-block"
       >
@@ -65,3 +77,15 @@ const isActive = (href: string) => current === href || current.startsWith(`${hre
     </div>
   </div>
 </header>
+
+<script>
+  import { cartCount, watchCart } from '../lib/cart';
+
+  const badge = document.querySelector<HTMLElement>('[data-cart-count]');
+  watchCart((lines) => {
+    if (!badge) return;
+    const count = cartCount(lines);
+    badge.textContent = String(count);
+    badge.hidden = count === 0;
+  });
+</script>

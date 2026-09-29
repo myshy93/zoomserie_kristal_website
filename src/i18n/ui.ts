@@ -93,6 +93,25 @@ const ro = {
   'order.disclaimer':
     'Nu se face nicio plată online. Te sunăm noi pentru confirmare, iar plata se face la livrare sau la ridicare.',
 
+  'cart.title': 'Coșul tău',
+  'cart.nav': 'Coș',
+  'cart.addTitle': 'Alege și adaugă în coș',
+  'cart.unit': 'Se vinde la',
+  'cart.add': 'Adaugă în coș',
+  'cart.added': 'Produsul a fost adăugat în coș.',
+  'cart.viewCart': 'Vezi coșul',
+  'cart.lineTotal': 'Total',
+  'cart.total': 'Total comandă',
+  'cart.remove': 'Șterge',
+  'cart.empty': 'Coșul tău este gol.',
+  'cart.freeDeliveryProgress': 'Mai adaugă {amount} pentru livrare gratuită.',
+  'cart.freeDeliveryReached': 'Ai livrare gratuită!',
+  'cart.deliveryFeeNote': 'Sub {threshold} RON, taxa de livrare ți-o comunicăm la confirmarea comenzii.',
+  'cart.sending': 'Se trimite...',
+  'cart.error': 'Comanda nu a putut fi trimisă. Încearcă din nou sau scrie-ne pe WhatsApp.',
+  'cart.successTitle': 'Comanda a fost trimisă!',
+  'cart.successBody': 'Te sunăm sau îți scriem noi în curând pentru confirmare. Plata se face la livrare sau la ridicare.',
+
   'quote.title': 'Cere ofertă pentru un tort personalizat',
   'quote.intro':
     'Spune-ne ce îți dorești și trimite-ne o poză de inspirație. Revenim cu o ofertă în cel mai scurt timp.',
@@ -211,6 +230,25 @@ const en: Record<UiKey, string> = {
   'order.submit': 'Send order',
   'order.disclaimer':
     'No online payment. We’ll call you to confirm, and you pay on delivery or at pickup.',
+
+  'cart.title': 'Your cart',
+  'cart.nav': 'Cart',
+  'cart.addTitle': 'Choose and add to cart',
+  'cart.unit': 'Sold by',
+  'cart.add': 'Add to cart',
+  'cart.added': 'Added to your cart.',
+  'cart.viewCart': 'View cart',
+  'cart.lineTotal': 'Total',
+  'cart.total': 'Order total',
+  'cart.remove': 'Remove',
+  'cart.empty': 'Your cart is empty.',
+  'cart.freeDeliveryProgress': 'Add {amount} more for free delivery.',
+  'cart.freeDeliveryReached': 'You get free delivery!',
+  'cart.deliveryFeeNote': 'Below {threshold} RON, we’ll tell you the delivery fee when we confirm your order.',
+  'cart.sending': 'Sending...',
+  'cart.error': 'We couldn’t send your order. Please try again or message us on WhatsApp.',
+  'cart.successTitle': 'Order sent!',
+  'cart.successBody': 'We’ll call or message you soon to confirm. You pay on delivery or at pickup.',
 
   'quote.title': 'Request a quote for a custom cake',
   'quote.intro':
