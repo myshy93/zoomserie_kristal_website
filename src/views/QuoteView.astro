@@ -68,7 +68,7 @@ const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 
         <input
           name="photo"
           type="file"
-          accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+          accept="image/*,.heic,.heif"
           class={`${input} file:mr-3 file:rounded-full file:border-0 file:bg-cream-deep file:px-3 file:py-1`}
         />
         <span class="mt-1 block text-xs font-normal text-cocoa-soft">{t('quote.photoHint')}</span>
@@ -97,11 +97,14 @@ const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 
       box.hidden = false;
     }
 
-    // Catch an oversized photo before uploading it.
+    // Catch a wrong type or oversized photo before uploading it. `accept` stays broad
+    // (image/*) because strict MIME lists grey out valid photos in some OS file pickers.
     const photo = form.querySelector<HTMLInputElement>('input[name="photo"]')!;
     photo.addEventListener('change', () => {
-      const tooBig = (photo.files?.[0]?.size ?? 0) > 10 * 1024 * 1024;
-      photo.setCustomValidity(tooBig ? errors.photo_size : '');
+      const file = photo.files?.[0];
+      const supported = !file || /\.(jpe?g|png|webp|heic|heif)$/i.test(file.name);
+      const tooBig = (file?.size ?? 0) > 10 * 1024 * 1024;
+      photo.setCustomValidity(!supported ? errors.photo_type : tooBig ? errors.photo_size : '');
       photo.reportValidity();
     });
 

@@ -19,6 +19,21 @@ const PHOTO_TYPES: Record<string, string> = {
   'image/heic': 'heic',
   'image/heif': 'heif',
 };
+/** Browsers often send HEIC (and sometimes others) with an empty MIME type. */
+const EXTENSION_TYPES: Record<string, string> = {
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  webp: 'image/webp',
+  heic: 'image/heic',
+  heif: 'image/heif',
+};
+
+function photoType(file: File): string | undefined {
+  if (PHOTO_TYPES[file.type]) return file.type;
+  const extension = file.name.split('.').pop()?.toLowerCase() ?? '';
+  return EXTENSION_TYPES[extension];
+}
 
 const redirect = (location: string) => new Response(null, { status: 303, headers: { location } });
 
@@ -54,11 +69,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const photo = form.get('photo');
   let photoKey: string | null = null;
   if (photo instanceof File && photo.size > 0) {
-    const ext = PHOTO_TYPES[photo.type];
-    if (!ext) return back('photo_type');
+    const contentType = photoType(photo);
+    if (!contentType) return back('photo_type');
     if (photo.size > MAX_PHOTO_BYTES) return back('photo_size');
-    photoKey = `quotes/${id}/${crypto.randomUUID()}.${ext}`;
-    await env.QUOTE_PHOTOS.put(photoKey, photo.stream(), { httpMetadata: { contentType: photo.type } });
+    photoKey = `quotes/${id}/${crypto.randomUUID()}.${PHOTO_TYPES[contentType]}`;
+    await env.QUOTE_PHOTOS.put(photoKey, photo.stream(), { httpMetadata: { contentType } });
   }
 
   try {
