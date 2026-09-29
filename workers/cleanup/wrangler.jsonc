@@ -5,6 +5,8 @@
 	"name": "zoomserie-cleanup",
 	"main": "src/index.ts",
 	"compatibility_date": "2026-09-26",
+	// Cron-only Worker: no public *.workers.dev URL.
+	"workers_dev": false,
 	"observability": {
 		"enabled": true
 	},
