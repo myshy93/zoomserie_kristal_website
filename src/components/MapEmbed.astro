@@ -87,7 +87,7 @@ const directions = directionsUrls();
       iframe.referrerPolicy = 'no-referrer-when-downgrade';
       iframe.allowFullscreen = true;
       iframe.className = 'absolute inset-0 size-full border-0';
-      map.appendChild(iframe);
+      map.append(iframe);
       map.querySelector<HTMLElement>('[data-map-placeholder]')!.hidden = true;
     });
 

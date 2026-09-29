@@ -1,12 +1,23 @@
 {
   "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo"
+  },
+  // Pages, components and their client <script>s: plain DOM types only. The generated
+  // Workers runtime types are global and would shadow DOM APIs (e.g. HTMLRewriter's
+  // Element.append), so they live in tsconfig.worker.json with the server-only code.
   "include": [
     ".astro/types.d.ts",
-    "**/*",
-    "./worker-configuration.d.ts"
+    "**/*"
   ],
   "exclude": [
     "dist",
-    "workers"
+    "workers",
+    "worker-configuration.d.ts",
+    "src/pages/api",
+    "src/lib/server"
+  ],
+  "references": [
+    { "path": "./tsconfig.worker.json" }
   ]
 }

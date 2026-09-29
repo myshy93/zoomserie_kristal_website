@@ -1,0 +1,26 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  // Code that runs on the Workers runtime: API routes, src/lib/server and the shared
+  // modules they import. Types come from `wrangler types` (worker-configuration.d.ts),
+  // not the DOM lib.
+  // Composite so tsconfig.json can reference it (editors then resolve these files here);
+  // the emitted declarations are throwaway and kept out of the repo.
+  "compilerOptions": {
+    "lib": ["ES2024"],
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "outDir": "./node_modules/.tmp/worker-types",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.worker.tsbuildinfo"
+  },
+  "include": [
+    ".astro/types.d.ts",
+    "worker-configuration.d.ts",
+    "src/content.config.ts",
+    "src/config",
+    "src/i18n",
+    "src/lib",
+    "src/pages/api"
+  ],
+  "exclude": []
+}
