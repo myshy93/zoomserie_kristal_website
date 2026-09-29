@@ -3,7 +3,7 @@
 // in D1 and emails the owner.
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
-import { newPublicId } from '../../lib/server/ids';
+import { fakeId, nextId } from '../../lib/server/ids';
 import { notifyOwner, orderMessage } from '../../lib/server/notify';
 import { PricingError, priceOrder } from '../../lib/server/pricing';
 import { fieldErrors, orderSchema } from '../../lib/server/validation';
@@ -34,7 +34,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const order = parsed.data;
 
   // Honeypot filled: pretend it worked so bots don't adapt, but store nothing.
-  if (order.website) return json(201, { orderId: newPublicId('ZS') });
+  if (order.website) return json(201, { orderId: fakeId('C') });
 
   let priced;
   try {
@@ -46,7 +46,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     throw error;
   }
 
-  const id = newPublicId('ZS');
+  const id = await nextId('C');
   const now = new Date().toISOString();
   await env.DB.batch([
     env.DB.prepare(

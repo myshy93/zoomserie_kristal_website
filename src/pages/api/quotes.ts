@@ -4,7 +4,7 @@
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
 import { path, type Lang } from '../../i18n/utils';
-import { newPublicId } from '../../lib/server/ids';
+import { fakeId, nextId } from '../../lib/server/ids';
 import { notifyOwner, quoteMessage, type Attachment } from '../../lib/server/notify';
 import { quoteSchema } from '../../lib/server/validation';
 
@@ -61,18 +61,21 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return back(first === 'eventDate' ? 'event_date' : first === 'phone' ? 'phone' : 'invalid');
   }
   const quote = parsed.data;
-  const id = newPublicId('QR');
-  const thanks = redirect(`${path('quoteThanks', lang)}?id=${id}`);
+  const thanks = (id: string) => redirect(`${path('quoteThanks', lang)}?id=${id}`);
 
-  if (quote.website) return thanks;
+  if (quote.website) return thanks(fakeId('O'));
 
+  // Validate the photo before taking a number, so rejected uploads don't leave gaps.
   const photo = form.get('photo');
+  const hasPhoto = photo instanceof File && photo.size > 0;
+  const contentType = hasPhoto ? photoType(photo) : undefined;
+  if (hasPhoto && !contentType) return back('photo_type');
+  if (hasPhoto && photo.size > MAX_PHOTO_BYTES) return back('photo_size');
+
+  const id = await nextId('O');
   let photoKey: string | null = null;
   let attachment: Attachment | null = null;
-  if (photo instanceof File && photo.size > 0) {
-    const contentType = photoType(photo);
-    if (!contentType) return back('photo_type');
-    if (photo.size > MAX_PHOTO_BYTES) return back('photo_size');
+  if (hasPhoto && contentType) {
     const extension = PHOTO_TYPES[contentType];
     // Read once: the same bytes go to R2 and, as an attachment, to the owner email.
     const bytes = new Uint8Array(await photo.arrayBuffer());
@@ -107,5 +110,5 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
 
   locals.cfContext.waitUntil(notifyOwner(quoteMessage(id, quote, photoKey, attachment)));
-  return thanks;
+  return thanks(id);
 };

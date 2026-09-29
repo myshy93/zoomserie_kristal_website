@@ -55,6 +55,7 @@ The products in `src/content/products/` that are marked "(exemplu)" are samples.
 
 - **`POST /api/orders`** (`src/pages/api/orders.ts`) takes the cart as JSON. It validates the body (`src/lib/server/validation.ts`) and reprices every line from the content collection (`src/lib/server/pricing.ts`). Prices are a fixed rate per unit (piece, portion, box or kg), and variations never change the price. It writes `orders` + `order_items` to D1 in one batch and returns `{ orderId }`. Status codes: 400 for invalid fields, 422 when a cart line no longer matches the catalog.
 - **`POST /api/quotes`** (`src/pages/api/quotes.ts`) is a native multipart form. The optional photo goes to R2 (`QUOTE_PHOTOS`, max 10 MB, jpg/png/webp/heic) and the request to `quote_requests`. It redirects to `/cere-oferta/multumim` or `/en/request-quote/thank-you`, or back to the form with `?error=<code>`.
+- **Numbers**: orders are `C-YYMMDD-NN` and quotes `O-YYMMDD-NN`, for example `C-260929-01` for the first order of the day in Bucharest time. They come from an atomic per-day counter in D1 (`id_counters`, `src/lib/server/ids.ts`).
 - **Anti-spam**: a hidden `website` honeypot in `ContactFields`. Submissions that fill it get a fake success and nothing is stored.
 - **Owner email** (`src/lib/server/notify.ts`) goes through the Mailjet Send API v3.1 and runs after the response, so it never blocks a submission. Setup:
   1. In Mailjet, validate the sender address and set it as `MAIL_FROM_EMAIL` in `wrangler.jsonc`. Sender name is `MAIL_FROM_NAME`.
