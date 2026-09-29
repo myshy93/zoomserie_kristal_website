@@ -24,6 +24,7 @@ export const routes = {
   quote: { ro: '/cere-oferta', en: '/en/request-quote' },
   quoteThanks: { ro: '/cere-oferta/multumim', en: '/en/request-quote/thank-you' },
   cart: { ro: '/cos', en: '/en/cart' },
+  cookies: { ro: '/politica-cookies', en: '/en/cookie-policy' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type RouteKey = keyof typeof routes;

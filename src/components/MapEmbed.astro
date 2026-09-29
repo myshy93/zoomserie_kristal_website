@@ -1,0 +1,97 @@
+---
+// Google map (Maps Embed API) behind a consent placeholder, plus Google Maps / Waze
+// directions links that always work (plain links, no cookies, no key needed).
+import { site } from '../config/site';
+import { directionsUrls, mapEmbedUrl } from '../lib/location';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const key = import.meta.env.PUBLIC_GOOGLE_MAPS_EMBED_KEY;
+const src = key ? mapEmbedUrl(key, lang) : undefined;
+const directions = directionsUrls();
+---
+
+<div
+  data-map-embed
+  data-src={src}
+  data-title={t('map.title', { name: site.name })}
+  class="relative aspect-[4/3] overflow-hidden rounded-2xl bg-cream-deep sm:aspect-[16/9]"
+>
+  <div data-map-placeholder class="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
+    <svg viewBox="0 0 24 24" class="size-10 text-berry" fill="currentColor" aria-hidden="true">
+      <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7m0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5"></path>
+    </svg>
+    <p class="font-semibold">{site.address}</p>
+    {
+      src ? (
+        <>
+          <p class="max-w-sm text-sm text-cocoa-soft">{t('map.notice')}</p>
+          <button
+            type="button"
+            data-map-load
+            class="rounded-full border border-berry px-5 py-2 text-sm font-semibold text-berry hover:bg-berry hover:text-white"
+          >
+            {t('map.load')}
+          </button>
+        </>
+      ) : (
+        <p class="max-w-sm text-sm text-cocoa-soft">{t('map.unavailable')}</p>
+      )
+    }
+  </div>
+</div>
+
+<div class="mt-4 flex flex-wrap gap-3">
+  <a
+    href={directions.google}
+    target="_blank"
+    rel="noopener"
+    class="inline-flex items-center gap-2 rounded-full bg-berry px-5 py-3 font-semibold text-white hover:bg-berry-dark"
+  >
+    <svg viewBox="0 0 24 24" class="size-5" fill="currentColor" aria-hidden="true">
+      <path d="M21.7 11.3 12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4M14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5z"></path>
+    </svg>
+    {t('contact.driveGoogle')}
+  </a>
+  <a
+    href={directions.waze}
+    target="_blank"
+    rel="noopener"
+    class="inline-flex items-center gap-2 rounded-full border border-berry px-5 py-3 font-semibold text-berry hover:bg-berry hover:text-white"
+  >
+    <svg viewBox="0 0 24 24" class="size-5" fill="currentColor" aria-hidden="true">
+      <path d="M21.7 11.3 12.7 2.3a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4M14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5z"></path>
+    </svg>
+    {t('contact.driveWaze')}
+  </a>
+</div>
+
+<script>
+  import { onConsent, setConsent } from '../lib/consent';
+
+  for (const map of document.querySelectorAll<HTMLElement>('[data-map-embed]')) {
+    const src = map.dataset.src;
+    if (!src) continue;
+
+    onConsent('media', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.title = map.dataset.title ?? '';
+      iframe.loading = 'lazy';
+      // The key is referrer-restricted: Google must see which site embeds the map.
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.allowFullscreen = true;
+      iframe.className = 'absolute inset-0 size-full border-0';
+      map.appendChild(iframe);
+      map.querySelector<HTMLElement>('[data-map-placeholder]')!.hidden = true;
+    });
+
+    // Loading the map is itself the consent for external content.
+    map.querySelector('[data-map-load]')?.addEventListener('click', () => setConsent({ media: true }));
+  }
+</script>
