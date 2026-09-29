@@ -19,23 +19,23 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
   <LocalBusinessSchema slot="head" lang={lang} />
 
   <section class="mx-auto max-w-4xl px-4 py-14">
-    <h1 class="text-4xl font-bold">{t('contact.title')}</h1>
-    <p class="mt-4 text-lg text-cocoa-soft">{t('contact.intro')}</p>
+    <h1 class="text-5xl">{t('contact.title')}</h1>
+    <p class="mt-4 text-lg text-muted">{t('contact.intro')}</p>
 
     <div class="mt-10 grid gap-10 sm:grid-cols-2">
       <div>
         <dl class="space-y-6">
           <div>
-            <dt class="font-semibold">{t('contact.phone')}</dt>
-            <dd><a href={`tel:${site.phone.replace(/\s/g, '')}`} class="text-berry hover:underline">{site.phone}</a></dd>
+            <dt class="caps text-muted">{t('contact.phone')}</dt>
+            <dd><a href={`tel:${site.phone.replace(/\s/g, '')}`} class="text-bronze hover:underline">{site.phone}</a></dd>
           </div>
           <div>
-            <dt class="font-semibold">{t('contact.email')}</dt>
-            <dd><a href={`mailto:${site.email}`} class="text-berry hover:underline">{site.email}</a></dd>
+            <dt class="caps text-muted">{t('contact.email')}</dt>
+            <dd><a href={`mailto:${site.email}`} class="text-bronze hover:underline">{site.email}</a></dd>
           </div>
           <div>
-            <dt class="font-semibold">{t('contact.address')}</dt>
-            <dd class="text-cocoa-soft">{site.address}</dd>
+            <dt class="caps text-muted">{t('contact.address')}</dt>
+            <dd class="mt-1 text-muted">{site.address}</dd>
           </div>
         </dl>
 
@@ -43,7 +43,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
           href={whatsappHref}
           target="_blank"
           rel="noopener"
-          class="mt-8 inline-block rounded-full bg-[#25d366] px-6 py-3 font-semibold text-white hover:brightness-95"
+          class="btn mt-8 bg-[#25d366] text-ink hover:brightness-95"
         >
           {t('contact.whatsapp')}
         </a>
@@ -53,13 +53,13 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
     </div>
 
     <section class="mt-14">
-      <h2 class="mb-4 text-2xl font-bold">{t('contact.findUs')}</h2>
+      <h2 class="mb-4 text-3xl">{t('contact.findUs')}</h2>
       <MapEmbed lang={lang} />
     </section>
 
-    <section id="legal" class="mt-14 border-t border-cream-deep pt-8">
-      <h2 class="text-2xl font-bold">{t('contact.legal')}</h2>
-      <dl class="mt-4 space-y-1 text-cocoa-soft">
+    <section id="legal" class="mt-14 border-t border-ink/10 pt-8">
+      <h2 class="text-3xl">{t('contact.legal')}</h2>
+      <dl class="mt-4 space-y-1 text-muted">
         <div><dt class="inline">Denumire:</dt> <dd class="inline">{site.legal.companyName}</dd></div>
         <div><dt class="inline">CUI:</dt> <dd class="inline">{site.legal.cui}</dd></div>
         <div><dt class="inline">Nr. Reg. Com.:</dt> <dd class="inline">{site.legal.regCom}</dd></div>

@@ -1,4 +1,5 @@
 ---
+import Laurel from './Laurel.astro';
 import { site } from '../config/site';
 import { path, useTranslations, type Lang } from '../i18n/utils';
 
@@ -9,28 +10,48 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
+const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(t('whatsapp.prefill'))}`;
+const heading = 'caps text-bronze-dark';
+const link = 'transition hover:text-bronze-dark';
 ---
 
-<footer class="mt-16 border-t border-cream-deep bg-cream-deep/60">
-  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm sm:grid-cols-3">
-    <div>
-      <p class="font-display text-xl font-bold text-berry">{site.name}</p>
-      <p class="mt-2 text-cocoa-soft">{site.address}</p>
+<footer class="border-t border-ink/10 bg-sand text-ink">
+  <div class="mx-auto max-w-7xl px-4 pt-14 pb-10 sm:px-6 lg:px-8">
+    <a href={path('home', lang)} class="flex flex-col items-center text-center">
+      <Laurel class="w-16 text-bronze-dark" />
+      <span class="font-serif text-3xl font-medium tracking-[0.18em] uppercase">{site.name}</span>
+      <span class="caps mt-2 text-[10px] tracking-[0.3em] text-ink/70">{t('site.tagline')}</span>
+    </a>
+
+    <div class="mt-12 grid gap-10 border-t border-ink/10 pt-10 text-sm sm:grid-cols-3">
+      <div class="space-y-3">
+        <h2 class={heading}>{t('footer.shop')}</h2>
+        <p class="text-ink/80">{site.address}</p>
+        <p><a href={path('contact', lang)} class={`${link} font-medium underline underline-offset-4`}>{t('nav.hoursLocation')}</a></p>
+      </div>
+
+      <div class="space-y-3">
+        <h2 class={heading}>{t('footer.orders')}</h2>
+        <p><a href={`tel:${site.phone.replace(/\s/g, '')}`} class={`${link} font-serif text-xl font-medium`}>{site.phone}</a></p>
+        <p><a href={`mailto:${site.email}`} class={link}>{site.email}</a></p>
+        <p><a href={whatsappHref} target="_blank" rel="noopener" class={link}>WhatsApp</a></p>
+        <p><a href={site.instagramUrl} rel="noopener" class={link}>Instagram</a></p>
+      </div>
+
+      <div class="space-y-3">
+        <h2 class={heading}>{t('footer.info')}</h2>
+        <ul class="space-y-2 text-ink/80">
+          <li><a href={`${path('contact', lang)}#legal`} class={link}>{t('contact.legal')}</a></li>
+          <li><a href={path('privacy', lang)} class={link}>{t('privacy.title')}</a></li>
+          <li><a href={path('cookies', lang)} class={link}>{t('cookiePolicy.title')}</a></li>
+          <li><button type="button" data-open-cookie-settings class={`${link} cursor-pointer`}>{t('footer.cookieSettings')}</button></li>
+          <li><a href="https://anpc.ro/ce-este-sal/" rel="noopener" class={link}>{t('footer.anpc')}</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="space-y-1">
-      <p><a href={`tel:${site.phone.replace(/\s/g, '')}`} class="hover:text-berry">{site.phone}</a></p>
-      <p><a href={`mailto:${site.email}`} class="hover:text-berry">{site.email}</a></p>
-      <p><a href={site.instagramUrl} class="hover:text-berry" rel="noopener">Instagram</a></p>
-    </div>
-    <div class="space-y-1">
-      <p><a href={`${path('contact', lang)}#legal`} class="hover:text-berry">{t('contact.legal')}</a></p>
-      <p><a href="https://anpc.ro/ce-este-sal/" class="hover:text-berry" rel="noopener">{t('footer.anpc')}</a></p>
-      <p><a href={path('privacy', lang)} class="hover:text-berry">{t('privacy.title')}</a></p>
-      <p><a href={path('cookies', lang)} class="hover:text-berry">{t('cookiePolicy.title')}</a></p>
-      <p><button type="button" data-open-cookie-settings class="hover:text-berry">{t('footer.cookieSettings')}</button></p>
-    </div>
+
+    <p class="caps mt-10 border-t border-ink/10 pt-6 text-center text-[10px] text-ink/70">
+      © {year} {site.name}. {t('footer.rights')}
+    </p>
   </div>
-  <p class="border-t border-cream-deep px-4 py-4 text-center text-xs text-cocoa-soft">
-    © {year} {site.name}. {t('footer.rights')}
-  </p>
 </footer>

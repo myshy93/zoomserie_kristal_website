@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
-import Photo from '../components/Photo.astro';
+import CategoryTile from '../components/CategoryTile.astro';
+import Laurel from '../components/Laurel.astro';
 import { site } from '../config/site';
-import { categoryImage, categoryUrl, getCategories } from '../lib/catalog';
+import { categoryImage, getCategories, PLACEHOLDER_IMAGE } from '../lib/catalog';
 import { localized, path, useTranslations, type Lang } from '../i18n/utils';
 
 interface Props {
@@ -13,59 +14,120 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const categories = await getCategories();
+const byId = new Map(categories.map((c) => [c.id, c]));
+// Home tiles: first row of three, second row of two.
+const featured = ['greek-collection', 'torturi', 'cafea', 'gift-box', 'tort-nunta']
+  .map((id) => byId.get(id))
+  .filter((c) => c !== undefined);
+// The hero goes full-bleed once the Greek collection's photo flag is on.
+const greek = byId.get('greek-collection');
+const hero = greek ? categoryImage(greek) : { image: PLACEHOLDER_IMAGE, isPlaceholder: true };
+
+const circle = (cx: number, cy: number, r: number) =>
+  `M${(cx - r).toFixed(2)} ${cy.toFixed(2)}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0`;
+
+const values = [
+  {
+    title: t('home.values.ingredientsTitle'),
+    body: t('home.values.ingredientsBody'),
+    icon: 'M5 19c9 0 14-6 14-14C11 5 5 10 5 19zm0 0 8-8',
+  },
+  {
+    title: t('home.values.greekTitle'),
+    body: t('home.values.greekBody'),
+    icon: 'M3 9h18L12 4 3 9zm2 0v9m4-9v9m6-9v9m4-9v9M3 18h18M2 21h20',
+  },
+  {
+    title: t('home.values.customTitle'),
+    body: t('home.values.customBody'),
+    // Five petals around a centre.
+    icon: [0, 72, 144, 216, 288]
+      .map((deg) => (deg - 90) * (Math.PI / 180))
+      .map((rad) => circle(12 + 4.6 * Math.cos(rad), 12 + 4.6 * Math.sin(rad), 3.2))
+      .concat(circle(12, 12, 1.8))
+      .join(''),
+  },
+  {
+    title: t('home.values.deliveryTitle'),
+    body: t('home.values.deliveryBody', { threshold: site.freeDeliveryThresholdRon }),
+    icon: 'M3 7h11v9H3zm11 3h4l3 3v3h-7M7 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm10 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z',
+  },
+];
 ---
 
 <BaseLayout lang={lang} paths={localized((l) => path('home', l))}>
   <LocalBusinessSchema slot="head" lang={lang} />
-  <section class="bg-cream-deep/60">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-      <h1 class="max-w-2xl text-4xl font-bold sm:text-5xl">{t('home.hero.title')}</h1>
-      <p class="mt-4 max-w-xl text-lg text-cocoa-soft">{t('home.hero.subtitle')}</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href={path('products', lang)} class="rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark">
-          {t('home.hero.ctaProducts')}
-        </a>
-        <a
-          href={path('quote', lang)}
-          class="rounded-full border border-berry px-6 py-3 font-semibold text-berry hover:bg-berry hover:text-white"
-        >
-          {t('home.hero.ctaQuote')}
-        </a>
+
+  <section class="relative overflow-hidden border-b border-ink/10 bg-ivory">
+    {
+      hero.isPlaceholder ? (
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,var(--color-sand)_0%,transparent_60%)]" />
+      ) : (
+        <>
+          <img src={hero.image} alt="" class="absolute inset-0 size-full object-cover object-right" />
+          <div class="absolute inset-0 bg-linear-to-r from-ivory from-25% via-ivory/70 via-50% to-transparent" />
+        </>
+      )
+    }
+    <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-24">
+      <div class="text-center">
+        <p class="font-serif text-2xl tracking-[0.3em] uppercase">{site.name}</p>
+        <h1 class="mt-3 text-5xl sm:text-6xl lg:text-7xl">{t('home.hero.title')}</h1>
+        <p class="caps mt-6 text-xs tracking-[0.35em] text-ink/80">{t('home.hero.eyebrow')}</p>
+        <div class="mt-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+          <a href={path('products', lang)} class="btn btn-outline px-9 py-3.5">{t('home.hero.ctaProducts')}</a>
+          <a href={path('quote', lang)} class="caps text-ink transition hover:text-bronze">{t('home.hero.ctaQuote')} →</a>
+        </div>
       </div>
+      {
+        hero.isPlaceholder && (
+          <figure class="mx-auto hidden w-full max-w-sm lg:block">
+            <div class="aspect-[4/5] overflow-hidden rounded-t-full border border-ink/10 bg-sand">
+              <img src={hero.image} alt="" class="size-full object-cover" />
+            </div>
+            <figcaption class="caps mt-3 text-center text-[10px] text-muted">{t('product.photoSoon')}</figcaption>
+          </figure>
+        )
+      }
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-14">
-    <h2 class="text-3xl font-bold">{t('home.categories.title')}</h2>
-    <ul class="mt-8 grid grid-cols-2 gap-6 md:grid-cols-4">
+  <section class="border-b border-ink/10 bg-ivory">
+    <ul class="mx-auto grid max-w-7xl grid-cols-1 gap-y-8 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:divide-x lg:divide-ink/10 lg:px-8">
       {
-        categories.map((category) => {
-          const { image, isPlaceholder } = categoryImage(category);
-          return (
-            <li>
-              <a href={categoryUrl(category, lang)} class="group block">
-                <Photo src={image} alt={category.data.name[lang]} isPlaceholder={isPlaceholder} lang={lang} />
-                <p class="mt-2 font-semibold group-hover:text-berry">{category.data.name[lang]}</p>
-              </a>
-            </li>
-          );
-        })
+        values.map((value) => (
+          <li class="flex items-center gap-4 px-4 lg:justify-center">
+            <svg viewBox="0 0 24 24" class="size-10 shrink-0 text-bronze" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true">
+              <path d={value.icon} />
+            </svg>
+            <div>
+              <p class="font-serif text-xl leading-tight">{value.title}</p>
+              <p class="caps mt-1 text-[10px] text-muted">{value.body}</p>
+            </div>
+          </li>
+        ))
       }
     </ul>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4">
-    <div class="rounded-3xl bg-caramel/15 px-6 py-10 sm:px-10">
-      <h2 class="text-2xl font-bold">{t('home.delivery.title', { threshold: site.freeDeliveryThresholdRon })}</h2>
-      <p class="mt-2 max-w-2xl text-cocoa-soft">{t('home.delivery.body')}</p>
+  <section class="grid gap-2 bg-ivory-light py-2" aria-labelledby="home-categories">
+    <h2 id="home-categories" class="sr-only">{t('home.categories.title')}</h2>
+    <div class="grid gap-2 lg:grid-cols-3">
+      {featured.slice(0, 3).map((category) => <CategoryTile category={category} lang={lang} />)}
+    </div>
+    <div class="grid gap-2 lg:grid-cols-[1fr_1.2fr]">
+      {featured.slice(3).map((category, i) => <CategoryTile category={category} lang={lang} reverse={i === 0} />)}
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-14">
-    <h2 class="text-3xl font-bold">{t('home.gallery.title')}</h2>
-    <p class="mt-2 text-cocoa-soft">{t('home.gallery.body')}</p>
-    <a href={path('gallery', lang)} class="mt-4 inline-block font-semibold text-berry hover:underline">
-      {t('nav.gallery')} →
-    </a>
+  <div class="bg-ivory py-12 text-center">
+    <a href={path('products', lang)} class="btn btn-outline px-9 py-3.5">{t('home.hero.ctaProducts')}</a>
+  </div>
+
+  <section class="bg-linear-to-b from-ivory to-sand px-4 py-20 text-center">
+    <p class="mx-auto max-w-3xl font-serif text-3xl sm:text-4xl">{t('home.quote')}</p>
+    <Laurel class="mx-auto mt-8 w-14 text-bronze" />
+    <p class="font-serif text-lg tracking-[0.3em] uppercase">{site.name}</p>
+    <span class="mx-auto mt-3 block h-px w-16 bg-ink/40" aria-hidden="true"></span>
   </section>
 </BaseLayout>

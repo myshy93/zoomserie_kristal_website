@@ -12,7 +12,6 @@ interface Props {
 const { lang, product } = Astro.props;
 const t = useTranslations(lang);
 const { pricing, variations, allowsMessage } = product.data;
-const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 focus:border-berry focus:outline-none';
 
 // Everything the script needs to price a line and show it in the cart in either language.
 const config = {
@@ -29,15 +28,15 @@ const config = {
 };
 ---
 
-<form class="space-y-6 rounded-3xl bg-white/70 p-6 shadow-sm" data-add-to-cart data-config={JSON.stringify(config)}>
-  <h2 class="text-2xl font-bold">{t('cart.addTitle')}</h2>
+<form class="space-y-6 card p-6 sm:p-8" data-add-to-cart data-config={JSON.stringify(config)}>
+  <h2 class="text-3xl">{t('cart.addTitle')}</h2>
 
   <div class="grid gap-4 sm:grid-cols-2">
     {
       pricing.length > 1 ? (
         <label class="block text-sm font-medium">
           {t('cart.unit')}
-          <select name="unit" class={input}>
+          <select name="unit" class="field">
             {pricing.map((p) => (
               <option value={p.unit}>
                 {formatPrice(p.priceRon, lang)} / {t(`unit.${p.unit}`)}
@@ -51,13 +50,13 @@ const config = {
     }
     <label class="block text-sm font-medium">
       {t('order.quantity')}
-      <input name="quantity" type="number" min="1" step="1" value="1" required class={input} />
+      <input name="quantity" type="number" min="1" step="1" value="1" required class="field" />
     </label>
     {
       variations.map((variation) => (
         <label class="block text-sm font-medium">
           {variation.label[lang]}
-          <select name={`variation.${variation.id}`} class={input}>
+          <select name={`variation.${variation.id}`} class="field">
             {variation.options.map((option) => (
               <option value={option.id}>{option.label[lang]}</option>
             ))}
@@ -71,21 +70,21 @@ const config = {
     allowsMessage && (
       <label class="block text-sm font-medium">
         {t('order.message')}
-        <input name="message" maxlength="60" placeholder={t('order.messagePlaceholder')} class={input} />
+        <input name="message" maxlength="60" placeholder={t('order.messagePlaceholder')} class="field" />
       </label>
     )
   }
 
   <div class="flex flex-wrap items-center gap-4">
-    <button type="submit" class="rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark">
+    <button type="submit" class="btn btn-primary">
       {t('cart.add')}
     </button>
-    <p class="text-lg font-semibold text-berry">{t('cart.lineTotal')}: <span data-price></span></p>
+    <p class="font-serif text-2xl font-medium">{t('cart.lineTotal')}: <span data-price></span></p>
   </div>
 
-  <p role="status" class="text-sm text-cocoa-soft" data-feedback hidden>
+  <p role="status" class="text-sm text-muted" data-feedback hidden>
     {t('cart.added')}
-    <a href={path('cart', lang)} class="font-semibold text-berry underline">{t('cart.viewCart')}</a>
+    <a href={path('cart', lang)} class="link">{t('cart.viewCart')}</a>
   </p>
 </form>
 

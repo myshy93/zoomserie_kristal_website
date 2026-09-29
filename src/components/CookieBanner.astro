@@ -9,7 +9,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const button = 'rounded-full px-5 py-2 text-sm font-semibold';
+const button = 'btn px-5 py-2 text-base';
 ---
 
 <div
@@ -17,48 +17,48 @@ const button = 'rounded-full px-5 py-2 text-sm font-semibold';
   role="dialog"
   aria-labelledby="cookie-banner-title"
   hidden
-  class="fixed inset-x-4 bottom-4 z-[60] max-w-md rounded-2xl border border-cream-deep bg-white p-5 shadow-xl sm:right-auto"
+  class="fixed inset-x-4 bottom-4 z-[60] max-w-md rounded-sm border border-ink/15 bg-ivory-light p-5 shadow-xl sm:right-auto"
 >
   <h2 id="cookie-banner-title" class="text-lg font-bold">{t('cookies.title')}</h2>
-  <p class="mt-2 text-sm text-cocoa-soft">
+  <p class="mt-2 text-sm text-muted">
     {t('cookies.body')}{' '}
-    <a href={path('cookies', lang)} class="text-berry underline">{t('cookiePolicy.title')}</a>
+    <a href={path('cookies', lang)} class="link">{t('cookiePolicy.title')}</a>
   </p>
 
   <div data-cookie-details hidden class="mt-4 space-y-3 text-sm">
     <label class="flex gap-3">
-      <input type="checkbox" checked disabled class="mt-1 accent-berry" />
+      <input type="checkbox" checked disabled class="mt-1 accent-bronze" />
       <span>
         <span class="font-semibold">{t('cookies.necessary')}</span>
-        <span class="text-cocoa-soft">({t('cookies.alwaysOn')})</span><br />
-        <span class="text-cocoa-soft">{t('cookies.necessaryDesc')}</span>
+        <span class="text-muted">({t('cookies.alwaysOn')})</span><br />
+        <span class="text-muted">{t('cookies.necessaryDesc')}</span>
       </span>
     </label>
     <label class="flex cursor-pointer gap-3">
-      <input type="checkbox" name="media" class="mt-1 accent-berry" />
+      <input type="checkbox" name="media" class="mt-1 accent-bronze" />
       <span>
         <span class="font-semibold">{t('cookies.media')}</span><br />
-        <span class="text-cocoa-soft">{t('cookies.mediaDesc')}</span>
+        <span class="text-muted">{t('cookies.mediaDesc')}</span>
       </span>
     </label>
   </div>
 
   <div class="mt-4 flex flex-wrap gap-2">
     <!-- Accept and reject get the same weight (EDPB guidance on consent banners). -->
-    <button type="button" data-cookie-accept class={`${button} bg-berry text-white hover:bg-berry-dark`}>
+    <button type="button" data-cookie-accept class={`${button} btn-primary`}>
       {t('cookies.acceptAll')}
     </button>
-    <button type="button" data-cookie-reject class={`${button} bg-berry text-white hover:bg-berry-dark`}>
+    <button type="button" data-cookie-reject class={`${button} btn-primary`}>
       {t('cookies.rejectAll')}
     </button>
-    <button type="button" data-cookie-customize class={`${button} text-berry underline`}>
+    <button type="button" data-cookie-customize class={`${button} link`}>
       {t('cookies.customize')}
     </button>
     <button
       type="button"
       data-cookie-save
       hidden
-      class={`${button} border border-berry text-berry hover:bg-berry hover:text-white`}
+      class={`${button} border border-ink/70 hover:bg-ink hover:text-ivory`}
     >
       {t('cookies.save')}
     </button>

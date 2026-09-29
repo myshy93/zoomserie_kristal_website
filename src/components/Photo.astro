@@ -13,11 +13,16 @@ const { src, alt, isPlaceholder, lang, class: className } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<figure class:list={['relative aspect-[4/3] overflow-hidden rounded-2xl bg-cream-deep', className]}>
-  <img src={src} alt={isPlaceholder ? '' : alt} loading="lazy" class="size-full object-cover" />
+<figure class:list={['relative aspect-[4/3] overflow-hidden rounded-sm bg-sand', className]}>
+  <img
+    src={src}
+    alt={isPlaceholder ? '' : alt}
+    loading="lazy"
+    class="size-full object-cover transition duration-700 motion-safe:group-hover:scale-105"
+  />
   {
     isPlaceholder && (
-      <figcaption class="absolute inset-x-0 bottom-3 text-center text-xs font-medium tracking-wide text-cocoa-soft uppercase">
+      <figcaption class="absolute inset-x-0 bottom-3 caps text-center text-[10px] text-muted">
         {t('product.photoSoon')}
       </figcaption>
     )

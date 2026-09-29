@@ -1,0 +1,52 @@
+---
+// Photo tile for a category: title, rule, description and a "view" link set over a fade
+// into the photo. `reverse` puts the photo on the left and the text on the right.
+import { categoryImage, categoryUrl, type Category } from '../lib/catalog';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  category: Category;
+  lang: Lang;
+  reverse?: boolean;
+  class?: string;
+}
+
+const { category, lang, reverse = false, class: className } = Astro.props;
+const t = useTranslations(lang);
+const { image, isPlaceholder } = categoryImage(category);
+---
+
+<a
+  href={categoryUrl(category, lang)}
+  class:list={['group relative flex min-h-72 overflow-hidden bg-sand sm:min-h-80', reverse && 'justify-end', className]}
+>
+  <img
+    src={image}
+    alt=""
+    loading="lazy"
+    class:list={[
+      'absolute inset-y-0 h-full w-[70%] object-cover transition duration-700 motion-safe:group-hover:scale-105',
+      reverse ? 'left-0' : 'right-0',
+    ]}
+  />
+  <div
+    class:list={[
+      'absolute inset-0 from-sand from-30% via-sand/80 via-50% to-transparent',
+      reverse ? 'bg-linear-to-l' : 'bg-linear-to-r',
+    ]}
+  >
+  </div>
+  <div class="relative flex max-w-[60%] flex-col p-6 sm:p-8">
+    <h3 class="text-3xl leading-none tracking-wide uppercase">{category.data.name[lang]}</h3>
+    <span class="my-4 block h-px w-24 bg-ink/40" aria-hidden="true"></span>
+    <p class="font-serif text-lg leading-snug">{category.data.description[lang]}</p>
+    <span class="caps mt-auto pt-6 text-ink transition group-hover:text-bronze-dark">{t('products.viewCategory')} →</span>
+  </div>
+  {
+    isPlaceholder && (
+      <span class:list={['caps absolute bottom-3 text-[9px] text-muted', reverse ? 'left-4' : 'right-4']}>
+        {t('product.photoSoon')}
+      </span>
+    )
+  }
+</a>

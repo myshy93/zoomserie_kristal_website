@@ -34,8 +34,8 @@ const nutritionRows = [
   description={p.description[lang]}
   paths={localized((l) => productUrl(product, l))}
 >
-  <article class="mx-auto max-w-6xl px-4 py-14">
-    <a href={categoryUrl(category, lang)} class="text-sm text-cocoa-soft hover:text-berry">← {category.data.name[lang]}</a>
+  <article class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <a href={categoryUrl(category, lang)} class="caps text-muted hover:text-bronze">← {category.data.name[lang]}</a>
 
     <div class="mt-4 grid gap-10 lg:grid-cols-2">
       <div class="space-y-4">
@@ -43,12 +43,12 @@ const nutritionRows = [
       </div>
 
       <div>
-        <h1 class="text-4xl font-bold">{p.name[lang]}</h1>
-        <p class="mt-4 text-lg text-cocoa-soft">{p.description[lang]}</p>
+        <h1 class="text-5xl">{p.name[lang]}</h1>
+        <p class="mt-4 text-lg text-muted">{p.description[lang]}</p>
 
         {
           p.orderType === 'standard' ? (
-            <ul class="mt-6 space-y-1 text-xl font-semibold text-berry">
+            <ul class="mt-6 space-y-1 font-serif text-3xl font-medium">
               {p.pricing.map((price) => (
                 <li>
                   {formatPrice(price.priceRon, lang)} / {t(`unit.${price.unit}`)}
@@ -56,11 +56,11 @@ const nutritionRows = [
               ))}
             </ul>
           ) : (
-            <div class="mt-6 rounded-2xl bg-cream-deep/60 p-5">
-              <p class="text-cocoa-soft">{t('product.quoteOnly')}</p>
+            <div class="mt-6 rounded-sm border border-ink/10 bg-sand p-5">
+              <p class="text-muted">{t('product.quoteOnly')}</p>
               <a
                 href={quoteHref}
-                class="mt-4 inline-block rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark"
+                class="btn btn-primary mt-4"
               >
                 {t('product.requestQuote')}
               </a>
@@ -70,31 +70,31 @@ const nutritionRows = [
 
         <dl class="mt-8 space-y-5">
           <div>
-            <dt class="font-semibold">{t('product.weight')}</dt>
-            <dd class="text-cocoa-soft">{p.weight}</dd>
+            <dt class="caps text-muted">{t('product.weight')}</dt>
+            <dd class="mt-1 text-muted">{p.weight}</dd>
           </div>
           <div>
-            <dt class="font-semibold">{t('product.ingredients')}</dt>
-            <dd class="text-cocoa-soft">{p.ingredients[lang]}</dd>
+            <dt class="caps text-muted">{t('product.ingredients')}</dt>
+            <dd class="mt-1 text-muted">{p.ingredients[lang]}</dd>
           </div>
           <div>
-            <dt class="font-semibold">{t('product.allergens')}</dt>
-            <dd class="text-cocoa-soft">
+            <dt class="caps text-muted">{t('product.allergens')}</dt>
+            <dd class="mt-1 text-muted">
               {p.allergens.length > 0 ? p.allergens.map((a) => t(`allergen.${a}`)).join(', ') : t('product.allergensNone')}
             </dd>
           </div>
           <div>
-            <dt class="font-semibold">{t('product.storage')}</dt>
-            <dd class="text-cocoa-soft">{p.storage[lang]}</dd>
+            <dt class="caps text-muted">{t('product.storage')}</dt>
+            <dd class="mt-1 text-muted">{p.storage[lang]}</dd>
           </div>
           <div>
-            <dt class="font-semibold">{t('product.nutrition')}</dt>
+            <dt class="caps text-muted">{t('product.nutrition')}</dt>
             <dd>
               <table class="mt-2 w-full max-w-sm text-sm">
-                <caption class="text-left text-cocoa-soft">{t('nutrition.per')} {p.nutrition.per}</caption>
+                <caption class="text-left text-muted">{t('nutrition.per')} {p.nutrition.per}</caption>
                 <tbody>
                   {nutritionRows.map(([label, value]) => (
-                    <tr class="border-b border-cream-deep">
+                    <tr class="border-b border-ink/10">
                       <th scope="row" class="py-1 text-left font-normal">{label}</th>
                       <td class="py-1 text-right">{value}</td>
                     </tr>

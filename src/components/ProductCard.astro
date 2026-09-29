@@ -15,14 +15,24 @@ const { images, isPlaceholder } = productImages(product, category);
 const price = product.data.pricing[0];
 ---
 
-<a href={productUrl(product, lang)} class="group block">
+<a href={productUrl(product, lang)} class="group flex h-full flex-col">
   <Photo src={images[0]} alt={product.data.name[lang]} isPlaceholder={isPlaceholder} lang={lang} />
-  <h3 class="mt-3 text-lg font-semibold group-hover:text-berry">{product.data.name[lang]}</h3>
-  <p class="text-sm text-cocoa-soft">
-    {
-      price
-        ? `${formatPrice(price.priceRon, lang)} / ${t(`unit.${price.unit}`)}`
-        : t('product.requestQuote')
-    }
-  </p>
+  <div class="flex flex-1 flex-col pt-4">
+    <p class="caps text-[10px] text-muted">{product.data.weight}</p>
+    <h3 class="mt-1 text-2xl transition group-hover:text-bronze">{product.data.name[lang]}</h3>
+    <p class="mt-1 line-clamp-2 flex-1 font-serif text-lg leading-snug text-muted">{product.data.description[lang]}</p>
+    <div class="mt-4 flex items-center justify-between gap-4 border-t border-ink/10 pt-3">
+      {
+        price ? (
+          <p class="font-serif text-2xl font-medium">
+            {formatPrice(price.priceRon, lang)}
+            <span class="font-sans text-xs text-muted"> / {t(`unit.${price.unit}`)}</span>
+          </p>
+        ) : (
+          <p class="font-serif text-xl">{t('product.requestQuote')}</p>
+        )
+      }
+      <span class="caps shrink-0 text-ink transition group-hover:text-bronze">{t('product.details')} →</span>
+    </div>
+  </div>
 </a>

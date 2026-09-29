@@ -28,7 +28,7 @@ const days = ([1, 2, 3, 4, 5, 6, 7] as Weekday[]).map((day) => {
   data-opens-tomorrow={t('contact.opensTomorrow')}
   data-opens-on={t('contact.opensOn')}
 >
-  <h2 class="font-semibold">{t('contact.hours')}</h2>
+  <h2 class="caps text-muted">{t('contact.hours')}</h2>
   <p data-open-status hidden class="mt-2 inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-semibold">
     <span class="size-2 rounded-full bg-current" aria-hidden="true"></span>
     <span data-open-status-text></span>
@@ -37,14 +37,14 @@ const days = ([1, 2, 3, 4, 5, 6, 7] as Weekday[]).map((day) => {
     <tbody>
       {
         days.map(({ day, name, hours }) => (
-          <tr data-day={day} data-day-name={name.toLowerCase()} class="border-b border-cream-deep last:border-0">
+          <tr data-day={day} data-day-name={name.toLowerCase()} class="border-b border-ink/10 last:border-0">
             <th scope="row" class="py-1.5 pr-4 text-left font-normal">
               {name}{' '}
-              <span data-today-marker hidden class="text-berry">
+              <span data-today-marker hidden class="text-bronze">
                 · {t('contact.today')}
               </span>
             </th>
-            <td class="py-1.5 text-right tabular-nums text-cocoa-soft">
+            <td class="py-1.5 text-right tabular-nums text-muted">
               {hours ? `${hours.opens} – ${hours.closes}` : t('contact.closed')}
             </td>
           </tr>
@@ -83,7 +83,7 @@ const days = ([1, 2, 3, 4, 5, 6, 7] as Weekday[]).map((day) => {
 
     const badge = box.querySelector<HTMLElement>('[data-open-status]')!;
     badge.querySelector('[data-open-status-text]')!.textContent = text;
-    badge.classList.add(...(status.open ? ['bg-green-100', 'text-green-800'] : ['bg-cream-deep', 'text-cocoa-soft']));
+    badge.classList.add(...(status.open ? ['bg-green-100', 'text-green-800'] : ['bg-sand', 'text-muted']));
     badge.hidden = false;
   }
 </script>

@@ -1,21 +1,66 @@
 @import "tailwindcss";
 
-/* Warm, family-bakery palette. Placeholder until the brand identity is finalized. */
+/* Greek pâtisserie look: warm ivory and sand surfaces, bronze accents, serif display type.
+   Brand identity is still a placeholder until the client finalizes it.
+   Contrast (WCAG AA, 4.5:1): bronze and muted pass on ivory; on sand use ink or bronze-dark. */
 @theme {
-  --color-cream: #fbf6ef;
-  --color-cream-deep: #f3e6d6;
-  --color-cocoa: #3b2a22;
-  --color-cocoa-soft: #6b5548;
-  --color-berry: #a8324f;
-  --color-berry-dark: #8a2740;
-  --color-caramel: #c98a4b;
+  --color-ivory: #f4efe9;
+  --color-ivory-light: #faf7f3;
+  --color-sand: #e9e1d8;
+  --color-sand-dark: #d8ccbf;
+  --color-bronze: #8b5a36;
+  --color-bronze-dark: #724828;
+  --color-bronze-light: #c7a27c;
+  --color-ink: #2b2621;
+  --color-muted: #665b52;
 
-  --font-display: Georgia, "Times New Roman", serif;
+  /* Self-hosted through Astro's fonts API (astro.config.mjs, <Font /> in BaseLayout). */
+  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-jost);
 }
 
 @layer base {
   h1, h2, h3 {
-    font-family: var(--font-display);
+    font-family: var(--font-serif);
+    font-weight: 500;
+    line-height: 1.1;
     text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--color-bronze);
+    color: white;
+  }
+}
+
+/* Shared building blocks. Plain component classes (not @utility) so the strings built in
+   client scripts (cart lines) get them too. */
+@layer components {
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-7 py-2.5 font-serif text-lg font-medium transition disabled:cursor-default disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply bg-bronze text-white hover:bg-bronze-dark;
+  }
+  /* Outlined pill with spaced capitals ("Descoperă colecția"). */
+  .btn-outline {
+    @apply border border-ink/70 font-sans text-xs tracking-[0.2em] text-ink uppercase hover:bg-ink hover:text-ivory;
+  }
+
+  .field {
+    @apply mt-1 w-full rounded-md border border-ink/20 bg-ivory-light px-3 py-2.5 text-sm text-ink transition focus:border-bronze focus:ring-1 focus:ring-bronze focus:outline-none;
+  }
+
+  .card {
+    @apply rounded-sm border border-ink/10 bg-ivory-light;
+  }
+
+  /* Small spaced capitals: section labels, field labels, "Vezi colecția →" links. */
+  .caps {
+    @apply font-sans text-[11px] font-medium tracking-[0.25em] uppercase;
+  }
+
+  .link {
+    @apply font-medium text-bronze underline underline-offset-4 hover:text-bronze-dark;
   }
 }

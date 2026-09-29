@@ -15,7 +15,13 @@ const ro = {
   'nav.gallery': 'Galerie',
   'nav.contact': 'Contact',
   'nav.quote': 'Cere ofertă',
+  'nav.order': 'Comandă online',
+  'nav.hoursLocation': 'Program și locație',
 
+  'site.tagline': 'Cofetărie · Cafea · Torturi',
+  'site.motto': 'Cofetărie de cartier în Berceni',
+
+  'home.hero.eyebrow': 'Prăjituri · Torturi · Patiserie',
   'home.hero.title': 'Dulciuri făcute cu drag, ca acasă',
   'home.hero.subtitle':
     'Prăjituri, torturi și patiserie proaspătă pentru familia ta, în Berceni și în sudul Capitalei.',
@@ -25,6 +31,15 @@ const ro = {
   'home.delivery.title': 'Livrare gratuită peste {threshold} RON',
   'home.delivery.body':
     'Livrăm în Berceni, în sudul Bucureștiului și în localitățile din apropiere. Poți ridica și personal comanda din cofetărie.',
+  'home.values.ingredientsTitle': 'Ingrediente la vedere',
+  'home.values.ingredientsBody': 'Alergeni și valori nutriționale',
+  'home.values.greekTitle': 'Greek collection',
+  'home.values.greekBody': 'Deserturi de inspirație grecească',
+  'home.values.customTitle': 'Torturi personalizate',
+  'home.values.customBody': 'Pentru momente speciale',
+  'home.values.deliveryTitle': 'Livrare gratuită',
+  'home.values.deliveryBody': 'Peste {threshold} RON, în sudul Capitalei',
+  'home.quote': '„Cele mai frumoase momente au gust de casă.”',
   'home.gallery.title': 'Din cofetăria noastră',
   'home.gallery.body': 'Urmărește-ne pe Instagram pentru noutăți și poze din laborator.',
 
@@ -47,6 +62,7 @@ const ro = {
   'product.quoteOnly': 'Prețul se stabilește în funcție de model. Trimite-ne o cerere și revenim cu o ofertă.',
   'product.requestQuote': 'Cere ofertă',
   'product.photoSoon': 'Fotografie în curând',
+  'product.details': 'Vezi detalii',
 
   'unit.bucata': 'buc.',
   'unit.kg': 'kg',
@@ -195,6 +211,9 @@ const ro = {
   'privacy.formNotice': 'Folosim datele tale doar pentru a-ți procesa comanda sau cererea. Detalii în',
   'privacy.formLink': 'Politica de confidențialitate',
 
+  'footer.shop': 'Cofetăria',
+  'footer.info': 'Informații clienți',
+  'footer.orders': 'Comenzi',
   'footer.rights': 'Toate drepturile rezervate.',
   'footer.anpc': 'ANPC – Soluționarea alternativă a litigiilor',
   'footer.cookieSettings': 'Setări cookie',
@@ -215,7 +234,13 @@ const en: Record<UiKey, string> = {
   'nav.gallery': 'Gallery',
   'nav.contact': 'Contact',
   'nav.quote': 'Request a quote',
+  'nav.order': 'Order online',
+  'nav.hoursLocation': 'Hours & location',
 
+  'site.tagline': 'Pâtisserie · Coffee · Cakes',
+  'site.motto': 'Neighbourhood cakery in Berceni',
+
+  'home.hero.eyebrow': 'Pastries · Cakes · Bakery',
   'home.hero.title': 'Homemade sweets, baked with love',
   'home.hero.subtitle':
     'Fresh pastries, cakes and baked goods for your family, in Berceni and south Bucharest.',
@@ -225,6 +250,15 @@ const en: Record<UiKey, string> = {
   'home.delivery.title': 'Free delivery over {threshold} RON',
   'home.delivery.body':
     'We deliver across Berceni, south Bucharest and nearby towns. You can also pick up your order from the shop.',
+  'home.values.ingredientsTitle': 'Nothing hidden',
+  'home.values.ingredientsBody': 'Allergens and nutrition listed',
+  'home.values.greekTitle': 'Greek collection',
+  'home.values.greekBody': 'Greek-inspired desserts',
+  'home.values.customTitle': 'Custom cakes',
+  'home.values.customBody': 'For special moments',
+  'home.values.deliveryTitle': 'Free delivery',
+  'home.values.deliveryBody': 'Over {threshold} RON, in south Bucharest',
+  'home.quote': '“The best moments taste like home.”',
   'home.gallery.title': 'From our kitchen',
   'home.gallery.body': 'Follow us on Instagram for news and photos from our kitchen.',
 
@@ -247,6 +281,7 @@ const en: Record<UiKey, string> = {
   'product.quoteOnly': 'Pricing depends on the design. Send us a request and we’ll get back to you with a quote.',
   'product.requestQuote': 'Request a quote',
   'product.photoSoon': 'Photo coming soon',
+  'product.details': 'View details',
 
   'unit.bucata': 'piece',
   'unit.kg': 'kg',
@@ -395,6 +430,9 @@ const en: Record<UiKey, string> = {
   'privacy.formNotice': 'We only use your details to process your order or request. See our',
   'privacy.formLink': 'Privacy policy',
 
+  'footer.shop': 'The shop',
+  'footer.info': 'Customer information',
+  'footer.orders': 'Orders',
   'footer.rights': 'All rights reserved.',
   'footer.anpc': 'ANPC – Alternative dispute resolution',
   'footer.cookieSettings': 'Cookie settings',
