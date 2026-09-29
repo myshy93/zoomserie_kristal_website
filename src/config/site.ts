@@ -4,9 +4,9 @@ export const site = {
   name: 'Zoomserie', // TODO: placeholder brand name
   url: 'https://zoomserie.ro', // TODO: real domain once the brand name is confirmed
   phone: '+40 700 000 000', // TODO
-  whatsappNumber: '40700000000', // TODO: international format, no "+" (used in wa.me links)
+  whatsappNumber: '40755041450', // international format, no "+" (used in wa.me links)
   email: 'contact@zoomserie.ro', // TODO
-  address: 'Berceni, București', // TODO: full address
+  address: 'Bloc C5, Grand Kristal Residence, Sector 4, București', // TODO: full address
   instagramUrl: 'https://www.instagram.com/', // TODO
   freeDeliveryThresholdRon: 200,
   legal: {
