@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import { categoryImage, categoryUrl, getCategories } from '../lib/catalog';
+import { localized, path, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const categories = await getCategories();
+---
+
+<BaseLayout lang={lang} title={t('products.title')} paths={localized((l) => path('products', l))}>
+  <section class="mx-auto max-w-6xl px-4 py-14">
+    <h1 class="text-4xl font-bold">{t('products.title')}</h1>
+    <p class="mt-3 text-cocoa-soft">{t('products.intro')}</p>
+
+    <ul class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        categories.map((category) => {
+          const { image, isPlaceholder } = categoryImage(category);
+          return (
+            <li>
+              <a href={categoryUrl(category, lang)} class="group block">
+                <Photo src={image} alt={category.data.name[lang]} isPlaceholder={isPlaceholder} lang={lang} />
+                <h2 class="mt-3 text-xl font-semibold group-hover:text-berry">{category.data.name[lang]}</h2>
+                <p class="mt-1 text-sm text-cocoa-soft">{category.data.description[lang]}</p>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { site } from '../config/site';
+import { otherLang, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** This page's URL in every language (canonical, hreflang, language switcher). */
+  paths: Record<Lang, string>;
+}
+
+const { lang, title, description, paths } = Astro.props;
+const t = useTranslations(lang);
+const pageTitle = title ? `${title} · ${site.name}` : site.name;
+// Built from explicit paths: inside the Cloudflare prerenderer Astro.site is unset and
+// Astro.url carries the ".html" file name.
+const canonical = new URL(paths[lang], site.url);
+const alternateUrl = new URL(paths[otherLang(lang)], site.url);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description ?? t('site.description')} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <link rel="alternate" hreflang={otherLang(lang)} href={alternateUrl} />
+  </head>
+  <body class="flex min-h-screen flex-col bg-cream text-cocoa antialiased">
+    <Header lang={lang} paths={paths} />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <WhatsAppButton lang={lang} />
+  </body>
+</html>

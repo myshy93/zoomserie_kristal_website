@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Tort de nuntă",
+    "en": "Wedding cakes"
+  },
+  "description": {
+    "ro": "Torturi de nuntă create după dorințele voastre, pe bază de ofertă.",
+    "en": "Wedding cakes designed to your wishes, quoted on request."
+  },
+  "order": 12,
+  "photosReady": false
+}

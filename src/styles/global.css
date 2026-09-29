@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* Warm, family-bakery palette. Placeholder until the brand identity is finalized. */
+@theme {
+  --color-cream: #fbf6ef;
+  --color-cream-deep: #f3e6d6;
+  --color-cocoa: #3b2a22;
+  --color-cocoa-soft: #6b5548;
+  --color-berry: #a8324f;
+  --color-berry-dark: #8a2740;
+  --color-caramel: #c98a4b;
+
+  --font-display: Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+}

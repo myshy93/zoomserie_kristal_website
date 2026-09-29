@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Gift box",
+    "en": "Gift boxes"
+  },
+  "description": {
+    "ro": "Cutii cadou cu dulciuri asortate.",
+    "en": "Gift boxes of assorted sweets."
+  },
+  "order": 6,
+  "photosReady": false
+}

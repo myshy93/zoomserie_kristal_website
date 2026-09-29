@@ -1,0 +1,67 @@
+---
+import { site } from '../config/site';
+import { languages } from '../i18n/ui';
+import { otherLang, path, useTranslations, type Lang, type RouteKey } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  paths: Record<Lang, string>;
+}
+
+const { lang, paths } = Astro.props;
+const t = useTranslations(lang);
+const current = paths[lang];
+
+const links: { key: RouteKey; label: string }[] = [
+  { key: 'products', label: t('nav.products') },
+  { key: 'about', label: t('nav.about') },
+  { key: 'gallery', label: t('nav.gallery') },
+  { key: 'contact', label: t('nav.contact') },
+];
+
+const isActive = (href: string) => current === href || current.startsWith(`${href}/`);
+---
+
+<header class="border-b border-cream-deep bg-cream/95">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-3 px-4 py-4">
+    <a href={path('home', lang)} class="font-display text-2xl font-bold text-berry">{site.name}</a>
+
+    <nav class="order-last -mx-4 w-full overflow-x-auto px-4 md:order-none md:mx-0 md:w-auto md:flex-1 md:px-0">
+      <ul class="flex gap-5 whitespace-nowrap text-sm font-medium">
+        {
+          links.map(({ key, label }) => {
+            const href = path(key, lang);
+            return (
+              <li>
+                <a
+                  href={href}
+                  class:list={['hover:text-berry', isActive(href) && 'text-berry underline underline-offset-4']}
+                  aria-current={isActive(href) ? 'page' : undefined}
+                >
+                  {label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-3">
+      <a
+        href={paths[otherLang(lang)]}
+        hreflang={otherLang(lang)}
+        lang={otherLang(lang)}
+        class="text-sm font-medium text-cocoa-soft hover:text-berry"
+      >
+        {languages[otherLang(lang)]}
+      </a>
+      <a
+        href={path('quote', lang)}
+        class="hidden rounded-full bg-berry px-4 py-2 text-sm font-semibold text-white hover:bg-berry-dark sm:inline-block"
+      >
+        {t('nav.quote')}
+      </a>
+    </div>
+  </div>
+</header>

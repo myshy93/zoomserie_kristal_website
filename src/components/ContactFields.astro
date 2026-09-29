@@ -1,0 +1,37 @@
+---
+// Contact fields shared by the order and quote forms. The address field is only
+// required for delivery; forms toggle it via the `data-address` hook.
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  withAddress?: boolean;
+}
+
+const { lang, withAddress = true } = Astro.props;
+const t = useTranslations(lang);
+const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 focus:border-berry focus:outline-none';
+---
+
+<div class="grid gap-4 sm:grid-cols-2">
+  <label class="block text-sm font-medium">
+    {t('order.lastName')}
+    <input name="lastName" required autocomplete="family-name" class={input} />
+  </label>
+  <label class="block text-sm font-medium">
+    {t('order.firstName')}
+    <input name="firstName" required autocomplete="given-name" class={input} />
+  </label>
+  <label class="block text-sm font-medium sm:col-span-2">
+    {t('order.phone')}
+    <input name="phone" type="tel" required autocomplete="tel" class={input} />
+  </label>
+  {
+    withAddress && (
+      <label class="block text-sm font-medium sm:col-span-2" data-address>
+        {t('order.address')}
+        <input name="address" autocomplete="street-address" class={input} />
+      </label>
+    )
+  }
+</div>

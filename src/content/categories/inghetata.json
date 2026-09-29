@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Înghețată",
+    "en": "Ice cream"
+  },
+  "description": {
+    "ro": "Înghețată artizanală.",
+    "en": "Artisanal ice cream."
+  },
+  "order": 14,
+  "photosReady": false
+}

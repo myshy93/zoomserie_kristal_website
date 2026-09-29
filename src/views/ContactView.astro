@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+import { localized, path, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(t('whatsapp.prefill'))}`;
+---
+
+<BaseLayout lang={lang} title={t('contact.title')} paths={localized((l) => path('contact', l))}>
+  <section class="mx-auto max-w-3xl px-4 py-14">
+    <h1 class="text-4xl font-bold">{t('contact.title')}</h1>
+
+    <dl class="mt-8 grid gap-6 sm:grid-cols-2">
+      <div>
+        <dt class="font-semibold">{t('contact.phone')}</dt>
+        <dd><a href={`tel:${site.phone.replace(/\s/g, '')}`} class="text-berry hover:underline">{site.phone}</a></dd>
+      </div>
+      <div>
+        <dt class="font-semibold">{t('contact.email')}</dt>
+        <dd><a href={`mailto:${site.email}`} class="text-berry hover:underline">{site.email}</a></dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="font-semibold">{t('contact.address')}</dt>
+        <dd class="text-cocoa-soft">{site.address}</dd>
+      </div>
+    </dl>
+
+    <a
+      href={whatsappHref}
+      target="_blank"
+      rel="noopener"
+      class="mt-8 inline-block rounded-full bg-[#25d366] px-6 py-3 font-semibold text-white hover:brightness-95"
+    >
+      {t('contact.whatsapp')}
+    </a>
+
+    <section id="legal" class="mt-14 border-t border-cream-deep pt-8">
+      <h2 class="text-2xl font-bold">{t('contact.legal')}</h2>
+      <dl class="mt-4 space-y-1 text-cocoa-soft">
+        <div><dt class="inline">Denumire:</dt> <dd class="inline">{site.legal.companyName}</dd></div>
+        <div><dt class="inline">CUI:</dt> <dd class="inline">{site.legal.cui}</dd></div>
+        <div><dt class="inline">Nr. Reg. Com.:</dt> <dd class="inline">{site.legal.regCom}</dd></div>
+      </dl>
+    </section>
+  </section>
+</BaseLayout>

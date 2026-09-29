@@ -1,0 +1,24 @@
+{
+  "name": { "ro": "Tort de nuntă", "en": "Wedding cake" },
+  "category": "tort-nunta",
+  "description": {
+    "ro": "Tort pe mai multe etaje, creat împreună cu voi pentru ziua cea mare. Prețul se stabilește în funcție de model și numărul de invitați.",
+    "en": "A tiered cake designed together with you for the big day. Pricing depends on the design and number of guests."
+  },
+  "orderType": "quote",
+  "quoteKind": "nunta",
+  "ingredients": {
+    "ro": "În funcție de aromele alese. Lista completă se comunică odată cu oferta.",
+    "en": "Depends on the chosen flavours. The full list is shared with the quote."
+  },
+  "allergens": ["gluten", "eggs", "milk"],
+  "weight": "În funcție de numărul de invitați",
+  "nutrition": {
+    "energyKj": 1680, "energyKcal": 402, "fat": 24, "saturatedFat": 14,
+    "carbs": 40, "sugars": 31, "protein": 6, "salt": 0.2
+  },
+  "storage": {
+    "ro": "A se păstra la frigider, între 2 și 6 °C. A se consuma în maximum 3 zile.",
+    "en": "Keep refrigerated at 2–6 °C. Best eaten within 3 days."
+  }
+}

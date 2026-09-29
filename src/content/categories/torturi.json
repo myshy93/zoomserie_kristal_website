@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Torturi",
+    "en": "Cakes"
+  },
+  "description": {
+    "ro": "Torturi întregi sau la felie, pentru orice ocazie.",
+    "en": "Whole cakes or by the slice, for any occasion."
+  },
+  "order": 2,
+  "photosReady": false
+}

@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Candy bar",
+    "en": "Candy bar"
+  },
+  "description": {
+    "ro": "Mini deserturi asortate pentru petreceri și evenimente de familie.",
+    "en": "Assorted mini desserts for parties and family gatherings."
+  },
+  "order": 3,
+  "photosReady": false
+}

@@ -1,0 +1,26 @@
+{
+  "name": { "ro": "Ecler cu vanilie (exemplu)", "en": "Vanilla éclair (sample)" },
+  "category": "prajituri",
+  "description": {
+    "ro": "Aluat opărit crocant, cremă de vanilie și glazură fondantă. Produs demonstrativ, se înlocuiește cu datele reale.",
+    "en": "Crisp choux pastry, vanilla custard and fondant glaze. Sample product, to be replaced with real data."
+  },
+  "pricing": [
+    { "unit": "bucata", "priceRon": 12 },
+    { "unit": "kg", "priceRon": 120 }
+  ],
+  "ingredients": {
+    "ro": "Lapte, ouă, făină de grâu, unt, zahăr, amidon, vanilie, fondant.",
+    "en": "Milk, eggs, wheat flour, butter, sugar, starch, vanilla, fondant."
+  },
+  "allergens": ["gluten", "eggs", "milk"],
+  "weight": "100 g",
+  "nutrition": {
+    "energyKj": 1240, "energyKcal": 297, "fat": 15, "saturatedFat": 9,
+    "carbs": 34, "sugars": 21, "protein": 6, "salt": 0.3
+  },
+  "storage": {
+    "ro": "A se păstra la frigider, între 2 și 6 °C. A se consuma în ziua achiziției.",
+    "en": "Keep refrigerated at 2–6 °C. Best eaten on the day of purchase."
+  }
+}

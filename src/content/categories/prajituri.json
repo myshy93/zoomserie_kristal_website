@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Prăjituri individuale",
+    "en": "Individual pastries"
+  },
+  "description": {
+    "ro": "Prăjituri clasice și moderne, la bucată sau la kilogram.",
+    "en": "Classic and modern pastries, by the piece or by the kilo."
+  },
+  "order": 1,
+  "photosReady": false
+}

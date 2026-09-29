@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Bomboane",
+    "en": "Bonbons"
+  },
+  "description": {
+    "ro": "Bomboane de ciocolată făcute în casă.",
+    "en": "Handmade chocolate bonbons."
+  },
+  "order": 9,
+  "photosReady": false
+}

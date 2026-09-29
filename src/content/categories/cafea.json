@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Cafea",
+    "en": "Coffee"
+  },
+  "description": {
+    "ro": "Cafea de specialitate, la pachet sau pe loc.",
+    "en": "Specialty coffee, to go or to stay."
+  },
+  "order": 5,
+  "photosReady": false
+}

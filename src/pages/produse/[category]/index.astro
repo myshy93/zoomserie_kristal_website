@@ -1,0 +1,10 @@
+---
+import CategoryView from '../../../views/CategoryView.astro';
+import { categoryStaticPaths } from '../../../lib/catalog';
+
+export const getStaticPaths = categoryStaticPaths;
+
+const { category } = Astro.props;
+---
+
+<CategoryView lang="ro" category={category} />

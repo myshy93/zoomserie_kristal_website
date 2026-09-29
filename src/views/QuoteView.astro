@@ -1,0 +1,89 @@
+---
+// "Cere ofertă" for custom and wedding cakes. Submission endpoint (/api/quotes →
+// R2 photo upload + D1 + owner notifications) is not implemented yet.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactFields from '../components/ContactFields.astro';
+import { localized, path, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 focus:border-berry focus:outline-none';
+---
+
+<BaseLayout lang={lang} title={t('nav.quote')} paths={localized((l) => path('quote', l))}>
+  <section class="mx-auto max-w-3xl px-4 py-14">
+    <h1 class="text-4xl font-bold">{t('quote.title')}</h1>
+    <p class="mt-4 text-lg text-cocoa-soft">{t('quote.intro')}</p>
+
+    <form
+      method="post"
+      action="/api/quotes"
+      enctype="multipart/form-data"
+      class="mt-10 space-y-6 rounded-3xl bg-white/70 p-6 shadow-sm"
+      data-quote-form
+    >
+      <input type="hidden" name="lang" value={lang} />
+
+      <fieldset>
+        <legend class="text-sm font-medium">{t('quote.kind')}</legend>
+        <div class="mt-2 flex flex-wrap gap-4">
+          <label class="flex items-center gap-2">
+            <input type="radio" name="kind" value="personalizat" checked class="accent-berry" />
+            {t('quote.kind.personalizat')}
+          </label>
+          <label class="flex items-center gap-2">
+            <input type="radio" name="kind" value="nunta" class="accent-berry" />
+            {t('quote.kind.nunta')}
+          </label>
+        </div>
+      </fieldset>
+
+      <label class="block text-sm font-medium" data-event-date>
+        {t('quote.eventDate')}
+        <input name="eventDate" type="date" class={input} />
+      </label>
+
+      <label class="block text-sm font-medium">
+        {t('quote.description')}
+        <textarea name="description" rows="5" required placeholder={t('quote.descriptionPlaceholder')} class={input}
+        ></textarea>
+      </label>
+
+      <label class="block text-sm font-medium">
+        {t('quote.photo')}
+        <input name="photo" type="file" accept="image/*" class={`${input} file:mr-3 file:rounded-full file:border-0 file:bg-cream-deep file:px-3 file:py-1`} />
+      </label>
+
+      <ContactFields lang={lang} />
+
+      <p class="text-sm text-cocoa-soft">{t('order.disclaimer')}</p>
+      <button type="submit" class="rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark">
+        {t('quote.submit')}
+      </button>
+    </form>
+  </section>
+</BaseLayout>
+
+<script>
+  // Wedding cakes also need the event date. `?tip=nunta` preselects the wedding option.
+  const form = document.querySelector<HTMLFormElement>('[data-quote-form]');
+  if (form) {
+    const kind = new URLSearchParams(location.search).get('tip');
+    const preset = form.querySelector<HTMLInputElement>(`input[name="kind"][value="${kind}"]`);
+    if (preset) preset.checked = true;
+
+    const eventDate = form.querySelector<HTMLElement>('[data-event-date]');
+    const sync = () => {
+      const wedding = form.querySelector<HTMLInputElement>('input[name="kind"]:checked')?.value === 'nunta';
+      if (!eventDate) return;
+      eventDate.hidden = !wedding;
+      eventDate.querySelector('input')!.required = wedding;
+    };
+    form.addEventListener('change', sync);
+    sync();
+  }
+</script>

@@ -1,0 +1,44 @@
+{
+  "name": { "ro": "Tort de ciocolată (exemplu)", "en": "Chocolate cake (sample)" },
+  "category": "torturi",
+  "description": {
+    "ro": "Blat pufos de cacao, cremă de ciocolată belgiană și ganache lucios. Produs demonstrativ, se înlocuiește cu datele reale.",
+    "en": "Fluffy cocoa sponge, Belgian chocolate cream and a glossy ganache. Sample product, to be replaced with real data."
+  },
+  "pricing": [{ "unit": "kg", "priceRon": 160 }],
+  "ingredients": {
+    "ro": "Făină de grâu, zahăr, ouă, smântână pentru frișcă, ciocolată neagră 54%, unt, cacao, praf de copt.",
+    "en": "Wheat flour, sugar, eggs, whipping cream, dark chocolate 54%, butter, cocoa, baking powder."
+  },
+  "allergens": ["gluten", "eggs", "milk", "soy"],
+  "weight": "1,5 kg",
+  "nutrition": {
+    "energyKj": 1720, "energyKcal": 412, "fat": 26, "saturatedFat": 15,
+    "carbs": 39, "sugars": 30, "protein": 6, "salt": 0.2
+  },
+  "storage": {
+    "ro": "A se păstra la frigider, între 2 și 6 °C. A se consuma în maximum 3 zile.",
+    "en": "Keep refrigerated at 2–6 °C. Best eaten within 3 days."
+  },
+  "variations": [
+    {
+      "id": "dimensiune",
+      "type": "dimensiune",
+      "label": { "ro": "Dimensiune", "en": "Size" },
+      "options": [
+        { "id": "1-5kg", "label": { "ro": "1,5 kg (8–10 porții)", "en": "1.5 kg (8–10 servings)" } },
+        { "id": "2-5kg", "label": { "ro": "2,5 kg (14–16 porții)", "en": "2.5 kg (14–16 servings)" }, "priceDeltaRon": 160 }
+      ]
+    },
+    {
+      "id": "decor",
+      "type": "decor",
+      "label": { "ro": "Decor", "en": "Decoration" },
+      "options": [
+        { "id": "clasic", "label": { "ro": "Clasic", "en": "Classic" } },
+        { "id": "fructe", "label": { "ro": "Cu fructe proaspete", "en": "With fresh fruit" }, "priceDeltaRon": 30 }
+      ]
+    }
+  ],
+  "allowsMessage": true
+}

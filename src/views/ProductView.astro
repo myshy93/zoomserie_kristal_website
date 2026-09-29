@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import OrderForm from '../components/OrderForm.astro';
+import { categoryUrl, productImages, productUrl, type Category, type Product } from '../lib/catalog';
+import { formatPrice, localized, path, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  product: Product;
+  category: Category;
+}
+
+const { lang, product, category } = Astro.props;
+const t = useTranslations(lang);
+const p = product.data;
+const { images, isPlaceholder } = productImages(product, category);
+const quoteHref = `${path('quote', lang)}?tip=${p.quoteKind ?? 'personalizat'}`;
+
+const nutritionRows = [
+  [t('nutrition.energy'), `${p.nutrition.energyKj} kJ / ${p.nutrition.energyKcal} kcal`],
+  [t('nutrition.fat'), `${p.nutrition.fat} g`],
+  [t('nutrition.saturatedFat'), `${p.nutrition.saturatedFat} g`],
+  [t('nutrition.carbs'), `${p.nutrition.carbs} g`],
+  [t('nutrition.sugars'), `${p.nutrition.sugars} g`],
+  [t('nutrition.protein'), `${p.nutrition.protein} g`],
+  [t('nutrition.salt'), `${p.nutrition.salt} g`],
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title={p.name[lang]}
+  description={p.description[lang]}
+  paths={localized((l) => productUrl(product, l))}
+>
+  <article class="mx-auto max-w-6xl px-4 py-14">
+    <a href={categoryUrl(category, lang)} class="text-sm text-cocoa-soft hover:text-berry">← {category.data.name[lang]}</a>
+
+    <div class="mt-4 grid gap-10 lg:grid-cols-2">
+      <div class="space-y-4">
+        {images.map((src) => <Photo src={src} alt={p.name[lang]} isPlaceholder={isPlaceholder} lang={lang} />)}
+      </div>
+
+      <div>
+        <h1 class="text-4xl font-bold">{p.name[lang]}</h1>
+        <p class="mt-4 text-lg text-cocoa-soft">{p.description[lang]}</p>
+
+        {
+          p.orderType === 'standard' ? (
+            <ul class="mt-6 space-y-1 text-xl font-semibold text-berry">
+              {p.pricing.map((price) => (
+                <li>
+                  {formatPrice(price.priceRon, lang)} / {t(`unit.${price.unit}`)}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div class="mt-6 rounded-2xl bg-cream-deep/60 p-5">
+              <p class="text-cocoa-soft">{t('product.quoteOnly')}</p>
+              <a
+                href={quoteHref}
+                class="mt-4 inline-block rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark"
+              >
+                {t('product.requestQuote')}
+              </a>
+            </div>
+          )
+        }
+
+        <dl class="mt-8 space-y-5">
+          <div>
+            <dt class="font-semibold">{t('product.weight')}</dt>
+            <dd class="text-cocoa-soft">{p.weight}</dd>
+          </div>
+          <div>
+            <dt class="font-semibold">{t('product.ingredients')}</dt>
+            <dd class="text-cocoa-soft">{p.ingredients[lang]}</dd>
+          </div>
+          <div>
+            <dt class="font-semibold">{t('product.allergens')}</dt>
+            <dd class="text-cocoa-soft">
+              {p.allergens.length > 0 ? p.allergens.map((a) => t(`allergen.${a}`)).join(', ') : t('product.allergensNone')}
+            </dd>
+          </div>
+          <div>
+            <dt class="font-semibold">{t('product.storage')}</dt>
+            <dd class="text-cocoa-soft">{p.storage[lang]}</dd>
+          </div>
+          <div>
+            <dt class="font-semibold">{t('product.nutrition')}</dt>
+            <dd>
+              <table class="mt-2 w-full max-w-sm text-sm">
+                <caption class="text-left text-cocoa-soft">{t('nutrition.per')} {p.nutrition.per}</caption>
+                <tbody>
+                  {nutritionRows.map(([label, value]) => (
+                    <tr class="border-b border-cream-deep">
+                      <th scope="row" class="py-1 text-left font-normal">{label}</th>
+                      <td class="py-1 text-right">{value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    {p.orderType === 'standard' && <div class="mt-12 max-w-3xl"><OrderForm lang={lang} product={product} /></div>}
+  </article>
+</BaseLayout>

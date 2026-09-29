@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Macarons",
+    "en": "Macarons"
+  },
+  "description": {
+    "ro": "Macarons în arome variate.",
+    "en": "Macarons in a range of flavours."
+  },
+  "order": 13,
+  "photosReady": false
+}

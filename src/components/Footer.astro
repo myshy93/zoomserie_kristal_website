@@ -1,0 +1,33 @@
+---
+import { site } from '../config/site';
+import { path, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-16 border-t border-cream-deep bg-cream-deep/60">
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm sm:grid-cols-3">
+    <div>
+      <p class="font-display text-xl font-bold text-berry">{site.name}</p>
+      <p class="mt-2 text-cocoa-soft">{site.address}</p>
+    </div>
+    <div class="space-y-1">
+      <p><a href={`tel:${site.phone.replace(/\s/g, '')}`} class="hover:text-berry">{site.phone}</a></p>
+      <p><a href={`mailto:${site.email}`} class="hover:text-berry">{site.email}</a></p>
+      <p><a href={site.instagramUrl} class="hover:text-berry" rel="noopener">Instagram</a></p>
+    </div>
+    <div class="space-y-1">
+      <p><a href={`${path('contact', lang)}#legal`} class="hover:text-berry">{t('contact.legal')}</a></p>
+      <p><a href="https://anpc.ro/ce-este-sal/" class="hover:text-berry" rel="noopener">{t('footer.anpc')}</a></p>
+    </div>
+  </div>
+  <p class="border-t border-cream-deep px-4 py-4 text-center text-xs text-cocoa-soft">
+    © {year} {site.name}. {t('footer.rights')}
+  </p>
+</footer>

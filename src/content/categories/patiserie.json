@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Patiserie",
+    "en": "Bakery"
+  },
+  "description": {
+    "ro": "Patiserie proaspătă, dulce și sărată.",
+    "en": "Fresh sweet and savoury bakes."
+  },
+  "order": 4,
+  "photosReady": false
+}

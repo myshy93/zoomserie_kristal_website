@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Greek collection",
+    "en": "Greek collection"
+  },
+  "description": {
+    "ro": "Deserturi inspirate din bucătăria grecească.",
+    "en": "Desserts inspired by Greek cuisine."
+  },
+  "order": 7,
+  "photosReady": false
+}

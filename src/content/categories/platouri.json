@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Platouri",
+    "en": "Platters"
+  },
+  "description": {
+    "ro": "Platouri cu mini prăjituri asortate.",
+    "en": "Platters of assorted mini pastries."
+  },
+  "order": 10,
+  "photosReady": false
+}

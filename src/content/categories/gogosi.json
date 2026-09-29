@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Gogoși",
+    "en": "Doughnuts"
+  },
+  "description": {
+    "ro": "Gogoși pufoase, simple sau umplute.",
+    "en": "Fluffy doughnuts, plain or filled."
+  },
+  "order": 11,
+  "photosReady": false
+}

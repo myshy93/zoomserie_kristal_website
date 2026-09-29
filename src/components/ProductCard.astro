@@ -1,0 +1,28 @@
+---
+import Photo from './Photo.astro';
+import { productImages, productUrl, type Category, type Product } from '../lib/catalog';
+import { formatPrice, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  product: Product;
+  category: Category;
+  lang: Lang;
+}
+
+const { product, category, lang } = Astro.props;
+const t = useTranslations(lang);
+const { images, isPlaceholder } = productImages(product, category);
+const price = product.data.pricing[0];
+---
+
+<a href={productUrl(product, lang)} class="group block">
+  <Photo src={images[0]} alt={product.data.name[lang]} isPlaceholder={isPlaceholder} lang={lang} />
+  <h3 class="mt-3 text-lg font-semibold group-hover:text-berry">{product.data.name[lang]}</h3>
+  <p class="text-sm text-cocoa-soft">
+    {
+      price
+        ? `${formatPrice(price.priceRon, lang)} / ${t(`unit.${price.unit}`)}`
+        : t('product.requestQuote')
+    }
+  </p>
+</a>

@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ro": "Fursecuri",
+    "en": "Cookies"
+  },
+  "description": {
+    "ro": "Fursecuri de casă, la cutie sau la kilogram.",
+    "en": "Homemade cookies, boxed or by the kilo."
+  },
+  "order": 8,
+  "photosReady": false
+}
