@@ -1,5 +1,5 @@
 // Owner notifications for new orders and quote requests. Email goes out through the
-// Resend HTTP API; WhatsApp (Cloud API) is planned and will be another sender here.
+// Mailjet Send API v3.1; WhatsApp (Cloud API) is planned and will be another sender here.
 // Notifications run in waitUntil and must never fail the customer's submission.
 import { env } from 'cloudflare:workers';
 import { site } from '../../config/site';
@@ -8,9 +8,13 @@ import type { OrderInput, QuoteInput } from './validation';
 
 /** Secrets (`wrangler secret put`, or `.dev.vars` locally) and vars used for email. */
 interface MailEnv {
-  RESEND_API_KEY?: string;
+  MAILJET_API_KEY?: string;
+  MAILJET_SECRET_KEY?: string;
+  /** Comma-separated for several recipients. */
   OWNER_EMAIL?: string;
-  MAIL_FROM?: string;
+  /** Must be a validated sender in Mailjet. */
+  MAIL_FROM_EMAIL?: string;
+  MAIL_FROM_NAME?: string;
 }
 
 interface Message {
@@ -76,24 +80,43 @@ export function quoteMessage(id: string, quote: QuoteInput, photoKey: string | n
   };
 }
 
+interface MailjetResponse {
+  Messages?: { Status: string; Errors?: { ErrorMessage: string }[] }[];
+}
+
 export async function notifyOwner(message: Message): Promise<void> {
-  const { RESEND_API_KEY, OWNER_EMAIL, MAIL_FROM } = env as unknown as MailEnv;
-  if (!RESEND_API_KEY || !OWNER_EMAIL) {
+  const { MAILJET_API_KEY, MAILJET_SECRET_KEY, OWNER_EMAIL, MAIL_FROM_EMAIL, MAIL_FROM_NAME } =
+    env as unknown as MailEnv;
+  if (!MAILJET_API_KEY || !MAILJET_SECRET_KEY || !OWNER_EMAIL || !MAIL_FROM_EMAIL) {
     console.warn(`[notify] email not configured, skipped: ${message.subject}`);
     return;
   }
   try {
-    const response = await fetch('https://api.resend.com/emails', {
+    const response = await fetch('https://api.mailjet.com/v3.1/send', {
       method: 'POST',
-      headers: { authorization: `Bearer ${RESEND_API_KEY}`, 'content-type': 'application/json' },
+      headers: {
+        authorization: `Basic ${btoa(`${MAILJET_API_KEY}:${MAILJET_SECRET_KEY}`)}`,
+        'content-type': 'application/json',
+      },
       body: JSON.stringify({
-        from: MAIL_FROM || `${site.name} <onboarding@resend.dev>`,
-        to: OWNER_EMAIL.split(',').map((a) => a.trim()),
-        subject: message.subject,
-        text: message.text,
+        Messages: [
+          {
+            From: { Email: MAIL_FROM_EMAIL, Name: MAIL_FROM_NAME || site.name },
+            To: OWNER_EMAIL.split(',').map((email) => ({ Email: email.trim() })),
+            Subject: message.subject,
+            TextPart: message.text,
+          },
+        ],
       }),
     });
-    if (!response.ok) console.error(`[notify] email failed ${response.status}: ${await response.text()}`);
+    // Mailjet reports failures per message, so a 200 can still hide an error.
+    const body = (await response.json().catch(() => ({}))) as MailjetResponse;
+    const errors = (body.Messages ?? [])
+      .filter((m) => m.Status !== 'success')
+      .flatMap((m) => m.Errors?.map((e) => e.ErrorMessage) ?? [m.Status]);
+    if (!response.ok || errors.length > 0) {
+      console.error(`[notify] email failed ${response.status}: ${errors.join('; ') || JSON.stringify(body)}`);
+    }
   } catch (error) {
     console.error('[notify] email error', error);
   }
