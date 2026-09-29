@@ -5,7 +5,7 @@ import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
 import { path, type Lang } from '../../i18n/utils';
 import { newPublicId } from '../../lib/server/ids';
-import { notifyOwner, quoteMessage } from '../../lib/server/notify';
+import { notifyOwner, quoteMessage, type Attachment } from '../../lib/server/notify';
 import { quoteSchema } from '../../lib/server/validation';
 
 export const prerender = false;
@@ -68,12 +68,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   const photo = form.get('photo');
   let photoKey: string | null = null;
+  let attachment: Attachment | null = null;
   if (photo instanceof File && photo.size > 0) {
     const contentType = photoType(photo);
     if (!contentType) return back('photo_type');
     if (photo.size > MAX_PHOTO_BYTES) return back('photo_size');
-    photoKey = `quotes/${id}/${crypto.randomUUID()}.${PHOTO_TYPES[contentType]}`;
-    await env.QUOTE_PHOTOS.put(photoKey, photo.stream(), { httpMetadata: { contentType } });
+    const extension = PHOTO_TYPES[contentType];
+    // Read once: the same bytes go to R2 and, as an attachment, to the owner email.
+    const bytes = new Uint8Array(await photo.arrayBuffer());
+    photoKey = `quotes/${id}/${crypto.randomUUID()}.${extension}`;
+    await env.QUOTE_PHOTOS.put(photoKey, bytes, { httpMetadata: { contentType } });
+    attachment = { filename: `${id}.${extension}`, contentType, bytes };
   }
 
   try {
@@ -101,6 +106,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
     throw error;
   }
 
-  locals.cfContext.waitUntil(notifyOwner(quoteMessage(id, quote, photoKey)));
+  locals.cfContext.waitUntil(notifyOwner(quoteMessage(id, quote, photoKey, attachment)));
   return thanks;
 };

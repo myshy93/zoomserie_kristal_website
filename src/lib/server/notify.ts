@@ -17,9 +17,27 @@ interface MailEnv {
   MAIL_FROM_NAME?: string;
 }
 
+export interface Attachment {
+  filename: string;
+  contentType: string;
+  bytes: Uint8Array;
+}
+
 interface Message {
   subject: string;
   text: string;
+  attachments?: Attachment[];
+}
+
+/** Base64 for Mailjet attachments; native `toBase64` where available, chunked btoa otherwise. */
+function toBase64(bytes: Uint8Array): string {
+  const native = (bytes as Uint8Array & { toBase64?: () => string }).toBase64;
+  if (native) return native.call(bytes);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  }
+  return btoa(binary);
 }
 
 const ron = (bani: number) =>
@@ -58,7 +76,12 @@ export function orderMessage(id: string, order: OrderInput, priced: PricedOrder)
   };
 }
 
-export function quoteMessage(id: string, quote: QuoteInput, photoKey: string | null): Message {
+export function quoteMessage(
+  id: string,
+  quote: QuoteInput,
+  photoKey: string | null,
+  photo: Attachment | null,
+): Message {
   const type = quote.kind === 'nunta' ? 'Tort de nuntă' : 'Tort personalizat';
   return {
     subject: `Cerere ofertă ${id} — ${type}, ${quote.lastName} ${quote.firstName}`,
@@ -75,8 +98,11 @@ export function quoteMessage(id: string, quote: QuoteInput, photoKey: string | n
       'Descriere:',
       quote.description,
       '',
-      photoKey ? `Poză de inspirație (R2 zoomserie-quote-photos): ${photoKey}` : 'Fără poză atașată.',
+      photoKey
+        ? `Poza de inspirație e atașată (copie în R2 zoomserie-quote-photos: ${photoKey}).`
+        : 'Fără poză atașată.',
     ].join('\n'),
+    attachments: photo ? [photo] : [],
   };
 }
 
@@ -105,6 +131,13 @@ export async function notifyOwner(message: Message): Promise<void> {
             To: OWNER_EMAIL.split(',').map((email) => ({ Email: email.trim() })),
             Subject: message.subject,
             TextPart: message.text,
+            ...(message.attachments?.length && {
+              Attachments: message.attachments.map((a) => ({
+                ContentType: a.contentType,
+                Filename: a.filename,
+                Base64Content: toBase64(a.bytes),
+              })),
+            }),
           },
         ],
       }),
