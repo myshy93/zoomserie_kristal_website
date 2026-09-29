@@ -20,14 +20,14 @@ const products = await getProducts(category.id);
   description={category.data.description[lang]}
   paths={localized((l) => categoryUrl(category, l))}
 >
-  <section class="mx-auto max-w-6xl px-4 py-14">
-    <a href={path('products', lang)} class="text-sm text-cocoa-soft hover:text-berry">← {t('products.title')}</a>
-    <h1 class="mt-2 text-4xl font-bold">{category.data.name[lang]}</h1>
-    <p class="mt-3 text-cocoa-soft">{category.data.description[lang]}</p>
+  <section class="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+    <a href={path('products', lang)} class="eyebrow hover:text-terracotta">← {t('products.title')}</a>
+    <h1 class="mt-2 text-5xl">{category.data.name[lang]}</h1>
+    <p class="mt-3 text-charcoal/70">{category.data.description[lang]}</p>
 
     {
       products.length === 0 ? (
-        <p class="mt-10 rounded-2xl bg-cream-deep/60 p-6 text-cocoa-soft">{t('products.empty')}</p>
+        <p class="mt-10 rounded-2xl bg-pearl-warm p-6 text-charcoal/70">{t('products.empty')}</p>
       ) : (
         <ul class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (

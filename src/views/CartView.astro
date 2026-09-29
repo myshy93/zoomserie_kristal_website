@@ -13,7 +13,6 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 focus:border-berry focus:outline-none';
 const config = {
   lang,
   locale: lang === 'ro' ? 'ro-RO' : 'en-GB',
@@ -48,54 +47,54 @@ const config = {
 
 <BaseLayout lang={lang} title={t('cart.title')} paths={localized((l) => path('cart', l))}>
   <section class="mx-auto max-w-3xl px-4 py-14" data-cart data-config={JSON.stringify(config)}>
-    <h1 class="text-4xl font-bold">{t('cart.title')}</h1>
+    <h1 class="text-5xl">{t('cart.title')}</h1>
 
-    <div data-empty hidden class="mt-8 rounded-3xl bg-white/70 p-6 shadow-sm">
-      <p class="text-cocoa-soft">{t('cart.empty')}</p>
+    <div data-empty hidden class="mt-8 card p-6 sm:p-8">
+      <p class="text-charcoal/70">{t('cart.empty')}</p>
       <a
         href={path('products', lang)}
-        class="mt-4 inline-block rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark"
+        class="btn btn-primary mt-4"
       >
         {t('home.hero.ctaProducts')}
       </a>
     </div>
 
-    <div data-success hidden role="status" class="mt-8 rounded-3xl bg-white/70 p-6 shadow-sm">
-      <h2 class="text-2xl font-bold">{t('cart.successTitle')}</h2>
-      <p class="mt-2 text-cocoa-soft">{t('cart.successBody')}</p>
+    <div data-success hidden role="status" class="mt-8 card p-6 sm:p-8">
+      <h2 class="text-3xl font-semibold">{t('cart.successTitle')}</h2>
+      <p class="mt-2 text-charcoal/70">{t('cart.successBody')}</p>
       <p class="mt-4 font-semibold" data-order-id></p>
-      <a href={path('home', lang)} class="mt-4 inline-block font-semibold text-berry underline">{t('nav.home')}</a>
+      <a href={path('home', lang)} class="link mt-4 inline-block">{t('nav.home')}</a>
     </div>
 
     <div data-filled hidden class="mt-8 space-y-8">
       <ul class="space-y-4" data-lines></ul>
 
-      <div class="rounded-3xl bg-white/70 p-6 shadow-sm">
+      <div class="card p-6 sm:p-8">
         <p class="flex justify-between text-xl font-bold">
           <span>{t('cart.total')}</span>
           <span data-total></span>
         </p>
         <div class="mt-4" data-free-delivery>
-          <div class="h-2 overflow-hidden rounded-full bg-cream-deep">
-            <div class="h-full bg-berry transition-all" data-progress style="width:0%"></div>
+          <div class="h-2 overflow-hidden rounded-full bg-pearl-warm">
+            <div class="h-full bg-terracotta transition-all" data-progress style="width:0%"></div>
           </div>
-          <p class="mt-2 text-sm text-cocoa-soft" data-free-delivery-text></p>
+          <p class="mt-2 text-sm text-charcoal/70" data-free-delivery-text></p>
         </div>
-        <p class="mt-2 text-xs text-cocoa-soft">{t('cart.deliveryFeeNote', { threshold: site.freeDeliveryThresholdRon })}</p>
+        <p class="mt-2 text-xs text-charcoal/70">{t('cart.deliveryFeeNote', { threshold: site.freeDeliveryThresholdRon })}</p>
       </div>
 
-      <form class="space-y-6 rounded-3xl bg-white/70 p-6 shadow-sm" data-checkout>
-        <h2 class="text-2xl font-bold">{t('order.title')}</h2>
+      <form class="space-y-6 card p-6 sm:p-8" data-checkout>
+        <h2 class="text-3xl font-semibold">{t('order.title')}</h2>
 
         <fieldset>
           <legend class="text-sm font-medium">{t('order.fulfillment')}</legend>
           <div class="mt-2 flex flex-wrap gap-4">
             <label class="flex items-center gap-2">
-              <input type="radio" name="fulfillment" value="delivery" checked class="accent-berry" />
+              <input type="radio" name="fulfillment" value="delivery" checked class="accent-terracotta-dark" />
               {t('order.delivery')}
             </label>
             <label class="flex items-center gap-2">
-              <input type="radio" name="fulfillment" value="pickup" class="accent-berry" />
+              <input type="radio" name="fulfillment" value="pickup" class="accent-terracotta-dark" />
               {t('order.pickup')}
             </label>
           </div>
@@ -105,18 +104,18 @@ const config = {
 
         <label class="block text-sm font-medium">
           {t('order.notes')}
-          <textarea name="notes" rows="3" class={input}></textarea>
+          <textarea name="notes" rows="3" class="field"></textarea>
         </label>
 
-        <p class="text-sm text-cocoa-soft">{t('order.disclaimer')}</p>
-        <p class="text-sm text-cocoa-soft">
+        <p class="text-sm text-charcoal/70">{t('order.disclaimer')}</p>
+        <p class="text-sm text-charcoal/70">
           {t('privacy.formNotice')}{' '}
-          <a href={path('privacy', lang)} target="_blank" class="text-berry underline">{t('privacy.formLink')}</a>.
+          <a href={path('privacy', lang)} target="_blank" class="link">{t('privacy.formLink')}</a>.
         </p>
         <p role="alert" class="text-sm font-medium text-red-700" data-error hidden></p>
         <button
           type="submit"
-          class="rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark disabled:opacity-60"
+          class="btn btn-primary"
         >
           {t('order.submit')}
         </button>
@@ -159,17 +158,17 @@ const config = {
     };
 
     function renderLine(line: CartLine) {
-      const item = el('li', 'rounded-3xl bg-white/70 p-5 shadow-sm');
+      const item = el('li', 'card p-5');
       const head = el('div', 'flex items-start justify-between gap-4');
-      const title = el('a', 'text-lg font-bold hover:text-berry', line.display.name[lang]) as HTMLAnchorElement;
+      const title = el('a', 'font-serif text-3xl font-semibold hover:text-terracotta', line.display.name[lang]) as HTMLAnchorElement;
       title.href = line.display.url[lang];
-      head.append(title, el('span', 'font-semibold text-berry', money.format(lineTotal(line))));
+      head.append(title, el('span', 'text-lg font-bold', money.format(lineTotal(line))));
       item.append(head);
 
       const details = [...line.display.options.map((o) => o[lang])];
       if (line.message) details.push(`${strings.message}: „${line.message}”`);
       details.push(`${money.format(line.unitPriceRon)} / ${strings.unit[line.unit] ?? line.unit}`);
-      item.append(el('p', 'mt-1 text-sm text-cocoa-soft', details.join(' · ')));
+      item.append(el('p', 'mt-1 text-sm text-charcoal/70', details.join(' · ')));
 
       const controls = el('div', 'mt-4 flex items-center gap-4');
       const qty = document.createElement('input');
@@ -179,12 +178,12 @@ const config = {
       qty.step = String(step);
       qty.value = String(line.quantity);
       qty.setAttribute('aria-label', `${strings.quantity} – ${line.display.name[lang]}`);
-      qty.className = 'w-24 rounded-lg border border-cocoa/20 bg-white px-3 py-1';
+      qty.className = 'field mt-0 w-24 py-1.5';
       qty.addEventListener('change', () => setQuantity(line.key, Number(qty.value) || step));
-      const remove = el('button', 'text-sm text-cocoa-soft underline hover:text-berry', strings.remove) as HTMLButtonElement;
+      const remove = el('button', 'text-sm text-charcoal/70 underline hover:text-terracotta-dark', strings.remove) as HTMLButtonElement;
       remove.type = 'button';
       remove.addEventListener('click', () => removeLine(line.key));
-      controls.append(qty, el('span', 'text-sm text-cocoa-soft', strings.unit[line.unit] ?? line.unit), remove);
+      controls.append(qty, el('span', 'text-sm text-charcoal/70', strings.unit[line.unit] ?? line.unit), remove);
       item.append(controls);
       return item;
     }

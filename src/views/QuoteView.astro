@@ -19,19 +19,18 @@ const errors = {
   photo_type: t('quote.error.photo_type'),
   photo_size: t('quote.error.photo_size'),
 };
-const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 focus:border-berry focus:outline-none';
 ---
 
 <BaseLayout lang={lang} title={t('nav.quote')} paths={localized((l) => path('quote', l))}>
   <section class="mx-auto max-w-3xl px-4 py-14">
-    <h1 class="text-4xl font-bold">{t('quote.title')}</h1>
-    <p class="mt-4 text-lg text-cocoa-soft">{t('quote.intro')}</p>
+    <h1 class="text-5xl">{t('quote.title')}</h1>
+    <p class="mt-4 text-lg text-charcoal/70">{t('quote.intro')}</p>
 
     <form
       method="post"
       action="/api/quotes"
       enctype="multipart/form-data"
-      class="mt-10 space-y-6 rounded-3xl bg-white/70 p-6 shadow-sm"
+      class="mt-10 space-y-6 card p-6 sm:p-8"
       data-quote-form
       data-errors={JSON.stringify(errors)}
     >
@@ -42,11 +41,11 @@ const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 
         <legend class="text-sm font-medium">{t('quote.kind')}</legend>
         <div class="mt-2 flex flex-wrap gap-4">
           <label class="flex items-center gap-2">
-            <input type="radio" name="kind" value="personalizat" checked class="accent-berry" />
+            <input type="radio" name="kind" value="personalizat" checked class="accent-terracotta-dark" />
             {t('quote.kind.personalizat')}
           </label>
           <label class="flex items-center gap-2">
-            <input type="radio" name="kind" value="nunta" class="accent-berry" />
+            <input type="radio" name="kind" value="nunta" class="accent-terracotta-dark" />
             {t('quote.kind.nunta')}
           </label>
         </div>
@@ -54,12 +53,12 @@ const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 
 
       <label class="block text-sm font-medium" data-event-date>
         {t('quote.eventDate')}
-        <input name="eventDate" type="date" class={input} />
+        <input name="eventDate" type="date" class="field" />
       </label>
 
       <label class="block text-sm font-medium">
         {t('quote.description')}
-        <textarea name="description" rows="5" required maxlength="2000" placeholder={t('quote.descriptionPlaceholder')} class={input}
+        <textarea name="description" rows="5" required maxlength="2000" placeholder={t('quote.descriptionPlaceholder')} class="field"
         ></textarea>
       </label>
 
@@ -69,19 +68,19 @@ const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 
           name="photo"
           type="file"
           accept="image/*,.heic,.heif"
-          class={`${input} file:mr-3 file:rounded-full file:border-0 file:bg-cream-deep file:px-3 file:py-1`}
+          class="field file:mr-3 file:rounded-lg file:border-0 file:bg-pearl-warm file:px-3 file:py-1 file:text-charcoal"
         />
-        <span class="mt-1 block text-xs font-normal text-cocoa-soft">{t('quote.photoHint')}</span>
+        <span class="mt-1 block text-xs font-normal text-charcoal/70">{t('quote.photoHint')}</span>
       </label>
 
       <ContactFields lang={lang} addressRequired />
 
-      <p class="text-sm text-cocoa-soft">{t('order.disclaimer')}</p>
-      <p class="text-sm text-cocoa-soft">
+      <p class="text-sm text-charcoal/70">{t('order.disclaimer')}</p>
+      <p class="text-sm text-charcoal/70">
         {t('privacy.formNotice')}{' '}
-        <a href={path('privacy', lang)} target="_blank" class="text-berry underline">{t('privacy.formLink')}</a>.
+        <a href={path('privacy', lang)} target="_blank" class="link">{t('privacy.formLink')}</a>.
       </p>
-      <button type="submit" class="rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark">
+      <button type="submit" class="btn btn-primary">
         {t('quote.submit')}
       </button>
     </form>

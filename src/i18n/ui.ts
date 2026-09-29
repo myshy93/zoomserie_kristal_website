@@ -15,16 +15,37 @@ const ro = {
   'nav.gallery': 'Galerie',
   'nav.contact': 'Contact',
   'nav.quote': 'Cere ofertă',
+  'nav.hoursLocation': 'Program și locație',
 
-  'home.hero.title': 'Dulciuri făcute cu drag, ca acasă',
+  'site.tagline': 'Cofetărie de cartier · Berceni',
+
+  'home.hero.eyebrow': 'Prăjituri · Torturi · Patiserie',
+  'home.hero.title': 'Dulciuri făcute cu drag,',
+  'home.hero.titleAccent': 'ca acasă',
   'home.hero.subtitle':
     'Prăjituri, torturi și patiserie proaspătă pentru familia ta, în Berceni și în sudul Capitalei.',
   'home.hero.ctaProducts': 'Vezi produsele',
   'home.hero.ctaQuote': 'Tort personalizat',
+  'home.hero.pointArea': 'Livrare în Berceni și sudul Capitalei',
+  'home.hero.pointConfirm': 'Confirmare la telefon sau pe WhatsApp',
+  'home.hero.customTitle': 'Torturi personalizate',
+  'home.hero.customBody': 'Trimite-ne o poză, revenim cu o ofertă',
   'home.categories.title': 'Ce găsești la noi',
   'home.delivery.title': 'Livrare gratuită peste {threshold} RON',
   'home.delivery.body':
     'Livrăm în Berceni, în sudul Bucureștiului și în localitățile din apropiere. Poți ridica și personal comanda din cofetărie.',
+  'home.steps.eyebrow': 'Simplu, fără plată online',
+  'home.steps.title': 'Cum comanzi',
+  'home.steps.pickTitle': 'Alege produsele',
+  'home.steps.pickBody': 'Adaugă în coș prăjiturile și torturile preferate, cu mărimea, aroma și mesajul dorit.',
+  'home.steps.sendTitle': 'Trimite comanda',
+  'home.steps.sendBody': 'Alegi livrare sau ridicare din cofetărie și lași un număr de telefon. Nu plătești nimic online.',
+  'home.steps.confirmTitle': 'Confirmăm și pregătim',
+  'home.steps.confirmBody': 'Te sunăm sau îți scriem pe WhatsApp pentru confirmare, apoi pregătim comanda.',
+  'home.custom.eyebrow': 'Torturi personalizate și de nuntă',
+  'home.custom.title': 'Tortul tău, așa cum ți-l imaginezi',
+  'home.custom.body':
+    'Trimite-ne o poză de referință și câteva detalii despre ocazie. Revenim cu o ofertă personalizată, fără nicio obligație.',
   'home.gallery.title': 'Din cofetăria noastră',
   'home.gallery.body': 'Urmărește-ne pe Instagram pentru noutăți și poze din laborator.',
 
@@ -47,6 +68,7 @@ const ro = {
   'product.quoteOnly': 'Prețul se stabilește în funcție de model. Trimite-ne o cerere și revenim cu o ofertă.',
   'product.requestQuote': 'Cere ofertă',
   'product.photoSoon': 'Fotografie în curând',
+  'product.details': 'Vezi detalii',
 
   'unit.bucata': 'buc.',
   'unit.kg': 'kg',
@@ -195,6 +217,9 @@ const ro = {
   'privacy.formNotice': 'Folosim datele tale doar pentru a-ți procesa comanda sau cererea. Detalii în',
   'privacy.formLink': 'Politica de confidențialitate',
 
+  'footer.shop': 'Cofetăria',
+  'footer.info': 'Informații clienți',
+  'footer.orders': 'Comenzi',
   'footer.rights': 'Toate drepturile rezervate.',
   'footer.anpc': 'ANPC – Soluționarea alternativă a litigiilor',
   'footer.cookieSettings': 'Setări cookie',
@@ -215,16 +240,37 @@ const en: Record<UiKey, string> = {
   'nav.gallery': 'Gallery',
   'nav.contact': 'Contact',
   'nav.quote': 'Request a quote',
+  'nav.hoursLocation': 'Hours & location',
 
-  'home.hero.title': 'Homemade sweets, baked with love',
+  'site.tagline': 'Neighbourhood cakery · Berceni',
+
+  'home.hero.eyebrow': 'Pastries · Cakes · Bakery',
+  'home.hero.title': 'Homemade sweets,',
+  'home.hero.titleAccent': 'baked with love',
   'home.hero.subtitle':
     'Fresh pastries, cakes and baked goods for your family, in Berceni and south Bucharest.',
   'home.hero.ctaProducts': 'See our products',
   'home.hero.ctaQuote': 'Custom cake',
+  'home.hero.pointArea': 'Delivery in Berceni and south Bucharest',
+  'home.hero.pointConfirm': 'Confirmed by phone or WhatsApp',
+  'home.hero.customTitle': 'Custom cakes',
+  'home.hero.customBody': 'Send us a photo, we’ll get back with a quote',
   'home.categories.title': 'What we make',
   'home.delivery.title': 'Free delivery over {threshold} RON',
   'home.delivery.body':
     'We deliver across Berceni, south Bucharest and nearby towns. You can also pick up your order from the shop.',
+  'home.steps.eyebrow': 'Simple, no online payment',
+  'home.steps.title': 'How to order',
+  'home.steps.pickTitle': 'Pick your treats',
+  'home.steps.pickBody': 'Add your favourite pastries and cakes to the cart, with the size, flavour and message you want.',
+  'home.steps.sendTitle': 'Send the order',
+  'home.steps.sendBody': 'Choose delivery or pickup from the shop and leave a phone number. Nothing to pay online.',
+  'home.steps.confirmTitle': 'We confirm and bake',
+  'home.steps.confirmBody': 'We call you or message you on WhatsApp to confirm, then get your order ready.',
+  'home.custom.eyebrow': 'Custom and wedding cakes',
+  'home.custom.title': 'Your cake, just as you imagine it',
+  'home.custom.body':
+    'Send us a reference photo and a few details about the occasion. We’ll come back with a tailored quote, no strings attached.',
   'home.gallery.title': 'From our kitchen',
   'home.gallery.body': 'Follow us on Instagram for news and photos from our kitchen.',
 
@@ -247,6 +293,7 @@ const en: Record<UiKey, string> = {
   'product.quoteOnly': 'Pricing depends on the design. Send us a request and we’ll get back to you with a quote.',
   'product.requestQuote': 'Request a quote',
   'product.photoSoon': 'Photo coming soon',
+  'product.details': 'View details',
 
   'unit.bucata': 'piece',
   'unit.kg': 'kg',
@@ -395,6 +442,9 @@ const en: Record<UiKey, string> = {
   'privacy.formNotice': 'We only use your details to process your order or request. See our',
   'privacy.formLink': 'Privacy policy',
 
+  'footer.shop': 'The shop',
+  'footer.info': 'Customer information',
+  'footer.orders': 'Orders',
   'footer.rights': 'All rights reserved.',
   'footer.anpc': 'ANPC – Alternative dispute resolution',
   'footer.cookieSettings': 'Cookie settings',

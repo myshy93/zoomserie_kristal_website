@@ -13,11 +13,11 @@ const t = useTranslations(lang);
 
 <BaseLayout lang={lang} title={t('quote.thanksTitle')} paths={localized((l) => path('quoteThanks', l))}>
   <section class="mx-auto max-w-3xl px-4 py-14">
-    <div role="status" class="rounded-3xl bg-white/70 p-6 shadow-sm">
-      <h1 class="text-3xl font-bold">{t('quote.thanksTitle')}</h1>
-      <p class="mt-2 text-cocoa-soft">{t('quote.thanksBody')}</p>
+    <div role="status" class="card p-6 sm:p-8">
+      <h1 class="text-4xl font-semibold">{t('quote.thanksTitle')}</h1>
+      <p class="mt-2 text-charcoal/70">{t('quote.thanksBody')}</p>
       <p class="mt-4 font-semibold" data-quote-id hidden data-template={t('quote.thanksId', { id: '{id}' })}></p>
-      <a href={path('home', lang)} class="mt-4 inline-block font-semibold text-berry underline">{t('nav.home')}</a>
+      <a href={path('home', lang)} class="link mt-4 inline-block">{t('nav.home')}</a>
     </div>
   </section>
 </BaseLayout>

@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 import cloudflare from '@astrojs/cloudflare';
@@ -18,6 +18,29 @@ export default defineConfig({
     locales: ['ro', 'en'],
     routing: { prefixDefaultLocale: false },
   },
+
+  // Downloaded at build time and served from our own domain, so visitors never hit
+  // Google's servers (no consent needed). latin-ext covers ă â î ș ț.
+  fonts: [
+    {
+      provider: fontProviders.google(),
+      name: 'Cormorant Garamond',
+      cssVariable: '--font-cormorant',
+      weights: [400, 600, 700],
+      styles: ['normal', 'italic'],
+      subsets: ['latin', 'latin-ext'],
+      fallbacks: ['Georgia', 'serif'],
+    },
+    {
+      provider: fontProviders.google(),
+      name: 'Plus Jakarta Sans',
+      cssVariable: '--font-jakarta',
+      weights: [300, 400, 500, 600, 700],
+      styles: ['normal'],
+      subsets: ['latin', 'latin-ext'],
+      fallbacks: ['sans-serif'],
+    },
+  ],
 
   vite: {
     plugins: [tailwindcss()]

@@ -12,27 +12,26 @@ interface Props {
 
 const { lang, withAddress = true, addressRequired = false } = Astro.props;
 const t = useTranslations(lang);
-const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 focus:border-berry focus:outline-none';
 ---
 
 <div class="grid gap-4 sm:grid-cols-2">
   <label class="block text-sm font-medium">
     {t('order.lastName')}
-    <input name="lastName" required maxlength="80" autocomplete="family-name" class={input} />
+    <input name="lastName" required maxlength="80" autocomplete="family-name" class="field" />
   </label>
   <label class="block text-sm font-medium">
     {t('order.firstName')}
-    <input name="firstName" required maxlength="80" autocomplete="given-name" class={input} />
+    <input name="firstName" required maxlength="80" autocomplete="given-name" class="field" />
   </label>
   <label class="block text-sm font-medium sm:col-span-2">
     {t('order.phone')}
-    <input name="phone" type="tel" required autocomplete="tel" class={input} />
+    <input name="phone" type="tel" required autocomplete="tel" class="field" />
   </label>
   {
     withAddress && (
       <label class="block text-sm font-medium sm:col-span-2" data-address>
         {t('order.address')}
-        <input name="address" autocomplete="street-address" required={addressRequired} maxlength="300" class={input} />
+        <input name="address" autocomplete="street-address" required={addressRequired} maxlength="300" class="field" />
       </label>
     )
   }

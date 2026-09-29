@@ -17,30 +17,30 @@ const googlePrivacy = `https://policies.google.com/privacy?hl=${lang}`;
 
 <BaseLayout lang={lang} title={t('cookiePolicy.title')} paths={localized((l) => path('cookies', l))}>
   <section class="mx-auto max-w-3xl px-4 py-14">
-    <h1 class="text-4xl font-bold">{t('cookiePolicy.title')}</h1>
-    <p class="mt-6 text-lg leading-relaxed text-cocoa-soft">{t('cookiePolicy.intro', { name: site.name })}</p>
+    <h1 class="text-5xl">{t('cookiePolicy.title')}</h1>
+    <p class="mt-6 text-lg leading-relaxed text-charcoal/70">{t('cookiePolicy.intro', { name: site.name })}</p>
 
-    <h2 class="mt-10 text-2xl font-bold">{t('cookiePolicy.necessaryTitle')}</h2>
-    <p class="mt-3 leading-relaxed text-cocoa-soft">{t('cookiePolicy.necessaryBody')}</p>
+    <h2 class="mt-10 text-3xl font-semibold">{t('cookiePolicy.necessaryTitle')}</h2>
+    <p class="mt-3 leading-relaxed text-charcoal/70">{t('cookiePolicy.necessaryBody')}</p>
 
-    <h2 class="mt-10 text-2xl font-bold">{t('cookiePolicy.mediaTitle')}</h2>
-    <p class="mt-3 leading-relaxed text-cocoa-soft">{t('cookiePolicy.mediaBody')}</p>
+    <h2 class="mt-10 text-3xl font-semibold">{t('cookiePolicy.mediaTitle')}</h2>
+    <p class="mt-3 leading-relaxed text-charcoal/70">{t('cookiePolicy.mediaBody')}</p>
     <p class="mt-2">
-      <a href={googlePrivacy} target="_blank" rel="noopener" class="text-berry hover:underline">
+      <a href={googlePrivacy} target="_blank" rel="noopener" class="font-medium text-terracotta-dark hover:underline">
         {t('cookiePolicy.googleLink')}
       </a>
     </p>
 
-    <h2 class="mt-10 text-2xl font-bold">{t('cookiePolicy.manageTitle')}</h2>
-    <p class="mt-3 leading-relaxed text-cocoa-soft">{t('cookiePolicy.manageBody')}</p>
+    <h2 class="mt-10 text-3xl font-semibold">{t('cookiePolicy.manageTitle')}</h2>
+    <p class="mt-3 leading-relaxed text-charcoal/70">{t('cookiePolicy.manageBody')}</p>
     <button
       type="button"
       data-open-cookie-settings
-      class="mt-4 rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark"
+      class="btn btn-primary mt-4"
     >
       {t('footer.cookieSettings')}
     </button>
 
-    <p class="mt-10 text-sm text-cocoa-soft">{t('cookiePolicy.updated', { date: updated })}</p>
+    <p class="mt-10 text-sm text-charcoal/70">{t('cookiePolicy.updated', { date: updated })}</p>
   </section>
 </BaseLayout>

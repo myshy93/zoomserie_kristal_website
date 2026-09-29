@@ -1,7 +1,7 @@
 ---
 import { site } from '../config/site';
 import { languages } from '../i18n/ui';
-import { otherLang, path, useTranslations, type Lang, type RouteKey } from '../i18n/utils';
+import { path, useTranslations, type Lang, type RouteKey } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -22,12 +22,49 @@ const links: { key: RouteKey; label: string }[] = [
 const isActive = (href: string) => current === href || current.startsWith(`${href}/`);
 ---
 
-<header class="border-b border-cream-deep bg-cream/95">
-  <div class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-3 px-4 py-4">
-    <a href={path('home', lang)} class="font-display text-2xl font-bold text-berry">{site.name}</a>
+<div class="bg-olive px-4 py-2.5 text-xs font-medium tracking-wider text-pearl">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4">
+    <p class="flex items-center gap-2">
+      <span class="inline-block size-2 shrink-0 rounded-full bg-bronze" aria-hidden="true"></span>
+      {t('home.delivery.title', { threshold: site.freeDeliveryThresholdRon })}
+    </p>
+    <div class="flex items-center gap-4 text-pearl/80">
+      <a href={path('contact', lang)} class="hidden transition hover:text-pearl sm:inline">{t('nav.hoursLocation')}</a>
+      <span class="hidden text-pearl/40 sm:inline" aria-hidden="true">|</span>
+      <ul class="flex gap-2 font-semibold">
+        {
+          (Object.keys(languages) as Lang[]).map((l) =>
+            l === lang ? (
+              <li class="text-pearl" aria-current="true">
+                {l.toUpperCase()}
+              </li>
+            ) : (
+              <li>
+                <a href={paths[l]} hreflang={l} lang={l} title={languages[l]} class="text-pearl/60 transition hover:text-pearl">
+                  {l.toUpperCase()}
+                </a>
+              </li>
+            ),
+          )
+        }
+      </ul>
+    </div>
+  </div>
+</div>
+
+<header class="sticky top-0 z-40 border-b border-charcoal/10 bg-pearl/90 backdrop-blur-md">
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-3 px-4 py-4 sm:px-6 lg:px-8">
+    <a href={path('home', lang)} class="group flex flex-col items-start leading-none">
+      <span
+        class="font-serif text-3xl font-bold tracking-widest text-charcoal uppercase transition-colors group-hover:text-terracotta"
+      >
+        {site.name}
+      </span>
+      <span class="mt-1 hidden text-[10px] tracking-[0.25em] text-bronze-dark uppercase sm:block">{t('site.tagline')}</span>
+    </a>
 
     <nav class="order-last -mx-4 w-full overflow-x-auto px-4 md:order-none md:mx-0 md:w-auto md:flex-1 md:px-0">
-      <ul class="flex gap-5 whitespace-nowrap text-sm font-medium">
+      <ul class="flex gap-6 text-sm font-medium tracking-wide whitespace-nowrap lg:gap-8">
         {
           links.map(({ key, label }) => {
             const href = path(key, lang);
@@ -35,7 +72,10 @@ const isActive = (href: string) => current === href || current.startsWith(`${hre
               <li>
                 <a
                   href={href}
-                  class:list={['hover:text-berry', isActive(href) && 'text-berry underline underline-offset-4']}
+                  class:list={[
+                    'transition hover:text-terracotta',
+                    isActive(href) && 'text-terracotta-dark underline decoration-terracotta underline-offset-8',
+                  ]}
                   aria-current={isActive(href) ? 'page' : undefined}
                 >
                   {label}
@@ -48,31 +88,18 @@ const isActive = (href: string) => current === href || current.startsWith(`${hre
     </nav>
 
     <div class="ml-auto flex items-center gap-3">
-      <a
-        href={paths[otherLang(lang)]}
-        hreflang={otherLang(lang)}
-        lang={otherLang(lang)}
-        class="text-sm font-medium text-cocoa-soft hover:text-berry"
-      >
-        {languages[otherLang(lang)]}
-      </a>
-      <a
-        href={path('cart', lang)}
-        class="relative inline-flex items-center gap-1 text-sm font-medium hover:text-berry"
-        aria-label={t('cart.nav')}
-      >
-        <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M3 4h2l2.4 11h10.2L20 7H6.2" stroke-linecap="round" stroke-linejoin="round"></path>
-          <circle cx="9" cy="19.5" r="1.2"></circle>
-          <circle cx="17" cy="19.5" r="1.2"></circle>
-        </svg>
-        <span class="rounded-full bg-berry px-1.5 text-xs font-semibold text-white" data-cart-count hidden></span>
-      </a>
-      <a
-        href={path('quote', lang)}
-        class="hidden rounded-full bg-berry px-4 py-2 text-sm font-semibold text-white hover:bg-berry-dark sm:inline-block"
-      >
+      <a href={path('quote', lang)} class="btn btn-secondary hidden px-4 py-2.5 sm:inline-flex">
         {t('nav.quote')}
+      </a>
+      <a href={path('cart', lang)} class="btn btn-olive rounded-full px-4 py-2.5" aria-label={t('cart.nav')}>
+        <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M16 11V7a4 4 0 0 0-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span class="hidden text-xs md:inline">{t('cart.nav')}</span>
+        <span
+          class="-mr-1 flex size-5 items-center justify-center rounded-full bg-terracotta text-[11px] font-bold text-white"
+          data-cart-count
+          hidden></span>
       </a>
     </div>
   </div>

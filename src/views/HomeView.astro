@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LocalBusinessSchema from '../components/LocalBusinessSchema.astro';
+import CategoryCard from '../components/CategoryCard.astro';
 import Photo from '../components/Photo.astro';
 import { site } from '../config/site';
-import { categoryImage, categoryUrl, getCategories } from '../lib/catalog';
+import { categoryImage, getCategories } from '../lib/catalog';
 import { localized, path, useTranslations, type Lang } from '../i18n/utils';
 
 interface Props {
@@ -13,59 +14,148 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const categories = await getCategories();
+// The hero shows the cakes category photo, so it goes live with that category's photo flag.
+const hero = categoryImage(categories.find((c) => c.id === 'torturi') ?? categories[0]);
+
+const steps = [
+  { title: t('home.steps.pickTitle'), body: t('home.steps.pickBody'), tone: 'bg-terracotta/10 text-terracotta' },
+  { title: t('home.steps.sendTitle'), body: t('home.steps.sendBody'), tone: 'bg-olive/10 text-olive' },
+  { title: t('home.steps.confirmTitle'), body: t('home.steps.confirmBody'), tone: 'bg-bronze/10 text-bronze-dark' },
+];
 ---
 
 <BaseLayout lang={lang} paths={localized((l) => path('home', l))}>
   <LocalBusinessSchema slot="head" lang={lang} />
-  <section class="bg-cream-deep/60">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:py-24">
-      <h1 class="max-w-2xl text-4xl font-bold sm:text-5xl">{t('home.hero.title')}</h1>
-      <p class="mt-4 max-w-xl text-lg text-cocoa-soft">{t('home.hero.subtitle')}</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href={path('products', lang)} class="rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark">
-          {t('home.hero.ctaProducts')}
-        </a>
-        <a
-          href={path('quote', lang)}
-          class="rounded-full border border-berry px-6 py-3 font-semibold text-berry hover:bg-berry hover:text-white"
+
+  <section
+    class="relative overflow-hidden border-b border-charcoal/5 bg-[radial-gradient(circle_at_70%_40%,rgb(196_109_78/0.14)_0%,transparent_65%)]"
+  >
+    <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 pt-10 pb-16 sm:px-6 lg:grid-cols-12 lg:gap-8 lg:px-8 lg:py-20">
+      <div class="space-y-6 lg:col-span-6">
+        <p
+          class="inline-flex items-center gap-2 rounded-full bg-terracotta/10 px-3 py-1.5 text-xs font-semibold tracking-wider text-terracotta-dark uppercase"
         >
-          {t('home.hero.ctaQuote')}
-        </a>
+          <span class="size-2 rounded-full bg-terracotta" aria-hidden="true"></span>
+          {t('home.hero.eyebrow')}
+        </p>
+        <h1 class="text-5xl leading-[1.05] lg:text-6xl">
+          {t('home.hero.title')} <span class="text-terracotta-dark italic">{t('home.hero.titleAccent')}</span>
+        </h1>
+        <p class="max-w-xl text-base leading-relaxed font-light text-charcoal/70 sm:text-lg">{t('home.hero.subtitle')}</p>
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a href={path('products', lang)} class="btn btn-primary px-8 py-3.5">{t('home.hero.ctaProducts')}</a>
+          <a href={path('quote', lang)} class="btn btn-secondary px-7 py-3.5">{t('home.hero.ctaQuote')}</a>
+        </div>
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 pt-2 text-xs text-charcoal/70">
+          {
+            [t('home.hero.pointArea'), t('home.hero.pointConfirm')].map((point) => (
+              <li class="flex items-center gap-1.5">
+                <svg viewBox="0 0 20 20" class="size-4 text-olive" fill="currentColor" aria-hidden="true">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  />
+                </svg>
+                {point}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="relative lg:col-span-6">
+        <div class="relative overflow-hidden rounded-3xl border-4 border-white bg-pearl-warm shadow-2xl">
+          <Photo
+            src={hero.image}
+            alt={t('home.hero.customTitle')}
+            isPlaceholder={hero.isPlaceholder}
+            lang={lang}
+            caption={false}
+            class="aspect-[4/3] rounded-none sm:aspect-[5/4]"
+          />
+          <a
+            href={path('quote', lang)}
+            class="group absolute inset-x-4 bottom-4 flex items-center justify-between gap-4 rounded-xl border border-white/40 bg-white/90 p-4 shadow-lg backdrop-blur-md sm:inset-x-6 sm:bottom-6"
+          >
+            <span>
+              <span class="block font-serif text-xl font-bold">{t('home.hero.customTitle')}</span>
+              <span class="block text-xs text-charcoal/70">{t('home.hero.customBody')}</span>
+            </span>
+            <span class="shrink-0 text-sm font-semibold tracking-wider text-terracotta-dark uppercase group-hover:text-terracotta">
+              {t('nav.quote')} →
+            </span>
+          </a>
+        </div>
+        <p
+          class="absolute -top-4 -left-4 hidden items-center gap-3 rounded-2xl bg-terracotta px-5 py-3 text-xs font-semibold tracking-wide text-white shadow-xl sm:flex"
+        >
+          <span class="size-2.5 rounded-full bg-white" aria-hidden="true"></span>
+          {t('home.delivery.title', { threshold: site.freeDeliveryThresholdRon })}
+        </p>
       </div>
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-14">
-    <h2 class="text-3xl font-bold">{t('home.categories.title')}</h2>
-    <ul class="mt-8 grid grid-cols-2 gap-6 md:grid-cols-4">
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <div class="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <div>
+        <p class="eyebrow">{t('nav.products')}</p>
+        <h2 class="mt-2 text-4xl sm:text-5xl">{t('home.categories.title')}</h2>
+      </div>
+      <p class="max-w-md text-sm text-charcoal/70">{t('products.intro')}</p>
+    </div>
+    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {
-        categories.map((category) => {
-          const { image, isPlaceholder } = categoryImage(category);
-          return (
-            <li>
-              <a href={categoryUrl(category, lang)} class="group block">
-                <Photo src={image} alt={category.data.name[lang]} isPlaceholder={isPlaceholder} lang={lang} />
-                <p class="mt-2 font-semibold group-hover:text-berry">{category.data.name[lang]}</p>
-              </a>
-            </li>
-          );
-        })
+        categories.map((category) => (
+          <li>
+            <CategoryCard category={category} lang={lang} />
+          </li>
+        ))
       }
     </ul>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4">
-    <div class="rounded-3xl bg-caramel/15 px-6 py-10 sm:px-10">
-      <h2 class="text-2xl font-bold">{t('home.delivery.title', { threshold: site.freeDeliveryThresholdRon })}</h2>
-      <p class="mt-2 max-w-2xl text-cocoa-soft">{t('home.delivery.body')}</p>
+  <section class="border-y border-charcoal/5 bg-pearl-warm py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto mb-14 max-w-3xl text-center">
+        <p class="eyebrow text-olive">{t('home.steps.eyebrow')}</p>
+        <h2 class="mt-2 text-4xl sm:text-5xl">{t('home.steps.title')}</h2>
+        <p class="mt-4 text-sm font-light text-charcoal/70 sm:text-base">{t('home.delivery.body')}</p>
+      </div>
+      <ol class="grid gap-8 md:grid-cols-3">
+        {
+          steps.map((step, i) => (
+            <li class="rounded-2xl border border-charcoal/5 bg-white p-8 text-center shadow-sm">
+              <span class:list={['mx-auto mb-4 flex size-14 items-center justify-center rounded-full font-serif text-2xl font-bold', step.tone]}>
+                {i + 1}
+              </span>
+              <h3 class="text-2xl font-bold">{step.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-charcoal/70">{step.body}</p>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-14">
-    <h2 class="text-3xl font-bold">{t('home.gallery.title')}</h2>
-    <p class="mt-2 text-cocoa-soft">{t('home.gallery.body')}</p>
-    <a href={path('gallery', lang)} class="mt-4 inline-block font-semibold text-berry hover:underline">
-      {t('nav.gallery')} →
-    </a>
+  <section class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    <div class="grid items-center gap-10 rounded-3xl bg-olive p-8 text-pearl shadow-xl sm:p-12 lg:grid-cols-12 lg:p-16">
+      <div class="space-y-6 lg:col-span-8">
+        <p class="eyebrow text-bronze-light">{t('home.custom.eyebrow')}</p>
+        <h2 class="text-4xl leading-tight sm:text-5xl">{t('home.custom.title')}</h2>
+        <p class="max-w-2xl text-sm leading-relaxed text-pearl/80 sm:text-base">{t('home.custom.body')}</p>
+      </div>
+      <div class="lg:col-span-4 lg:text-right">
+        <a href={path('quote', lang)} class="btn btn-primary px-8 py-3.5">{t('nav.quote')}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pb-4 text-center sm:px-6 lg:px-8">
+    <p class="eyebrow">Instagram</p>
+    <h2 class="mt-2 text-4xl sm:text-5xl">{t('home.gallery.title')}</h2>
+    <p class="mx-auto mt-4 max-w-xl text-charcoal/70">{t('home.gallery.body')}</p>
+    <a href={path('gallery', lang)} class="btn btn-secondary mt-6">{t('nav.gallery')} →</a>
   </section>
 </BaseLayout>

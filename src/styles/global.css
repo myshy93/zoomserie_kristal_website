@@ -1,21 +1,71 @@
 @import "tailwindcss";
 
-/* Warm, family-bakery palette. Placeholder until the brand identity is finalized. */
+/* Mediterranean palette: pearl surfaces, terracotta accents, olive for cart actions.
+   Brand identity is still a placeholder until the client finalizes it.
+   Contrast (WCAG AA, 4.5:1 for small text): plain terracotta and bronze only pass as large
+   text or decoration. Small text and white-on-colour buttons use the -dark/-deep shades,
+   bronze-dark on light surfaces and bronze-light on olive. */
 @theme {
-  --color-cream: #fbf6ef;
-  --color-cream-deep: #f3e6d6;
-  --color-cocoa: #3b2a22;
-  --color-cocoa-soft: #6b5548;
-  --color-berry: #a8324f;
-  --color-berry-dark: #8a2740;
-  --color-caramel: #c98a4b;
+  --color-pearl: #fbf9f5;
+  --color-pearl-warm: #f5efeb;
+  --color-terracotta: #c46d4e;
+  --color-terracotta-dark: #a35336;
+  --color-terracotta-deep: #8a452c;
+  --color-olive: #4a5d4e;
+  --color-olive-light: #6e8573;
+  --color-bronze: #b88e56;
+  --color-bronze-dark: #7f6038;
+  --color-bronze-light: #e3cda8;
+  --color-charcoal: #21201e;
 
-  --font-display: Georgia, "Times New Roman", serif;
+  /* Self-hosted through Astro's fonts API (astro.config.mjs, <Font /> in BaseLayout). */
+  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-jakarta);
+
+  --shadow-clay: 0 16px 36px -12px rgb(74 93 78 / 0.12);
 }
 
 @layer base {
   h1, h2, h3 {
-    font-family: var(--font-display);
+    font-family: var(--font-serif);
     text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--color-terracotta);
+    color: white;
+  }
+}
+
+/* Shared building blocks. Plain component classes (not @utility) so the strings built in
+   client scripts (cart lines) get them too. */
+@layer components {
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition disabled:cursor-default disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply bg-terracotta-dark text-white shadow-md hover:bg-terracotta-deep hover:shadow-lg;
+  }
+  .btn-secondary {
+    @apply border border-charcoal/20 text-charcoal hover:border-charcoal/40 hover:bg-white;
+  }
+  .btn-olive {
+    @apply bg-olive text-pearl shadow-sm hover:bg-olive/90;
+  }
+
+  .field {
+    @apply mt-1 w-full rounded-xl border border-charcoal/20 bg-white px-3 py-2.5 text-sm text-charcoal transition focus:border-terracotta focus:ring-1 focus:ring-terracotta focus:outline-none;
+  }
+
+  .card {
+    @apply rounded-2xl border border-charcoal/10 bg-white shadow-clay;
+  }
+
+  .eyebrow {
+    @apply text-xs font-bold tracking-widest text-terracotta-dark uppercase;
+  }
+
+  .link {
+    @apply font-semibold text-terracotta-dark underline underline-offset-4 hover:text-terracotta;
   }
 }
