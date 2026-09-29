@@ -16,7 +16,8 @@
 	// OWNER_EMAIL. MAIL_FROM_EMAIL must be a validated Mailjet sender; email is skipped while empty.
 	"vars": {
 		"MAIL_FROM_EMAIL": "dinusoftcraft@gmail.com",
-		"MAIL_FROM_NAME": "Zoomserie"
+		"MAIL_FROM_NAME": "Zoomserie",
+		"PUBLIC_GOOGLE_MAPS_EMBED_KEY": "AIzaSyApb18jLCSn0_79WiEhl8gRK_-78vykH6M"
 	},
 	"d1_databases": [
 		{
