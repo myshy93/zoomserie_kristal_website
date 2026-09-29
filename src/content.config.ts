@@ -44,6 +44,10 @@ const products = defineCollection({
       /** `standard` = fixed price + order form; `quote` = no price, goes to the "Cere ofertă" form. */
       orderType: z.enum(['standard', 'quote']).default('standard'),
       quoteKind: z.enum(['personalizat', 'nunta']).optional(),
+      /**
+       * Fixed rate per unit: per piece/portion/box, or per kg (line = rate × kg).
+       * Variations never change the price.
+       */
       pricing: z
         .array(
           z.object({
@@ -74,13 +78,7 @@ const products = defineCollection({
             id: z.string(),
             type: z.enum(['dimensiune', 'portii', 'aroma', 'decor']),
             label: localized,
-            options: z.array(
-              z.object({
-                id: z.string(),
-                label: localized,
-                priceDeltaRon: z.number().default(0),
-              }),
-            ),
+            options: z.array(z.object({ id: z.string(), label: localized })),
           }),
         )
         .default([]),

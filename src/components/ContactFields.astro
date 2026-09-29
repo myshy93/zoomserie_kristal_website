@@ -1,14 +1,16 @@
 ---
-// Contact fields shared by the order and quote forms. The address field is only
-// required for delivery; forms toggle it via the `data-address` hook.
+// Contact fields shared by the order and quote forms. The order form toggles the
+// address (only required for delivery) via the `data-address` hook; the quote form
+// always requires it. Also renders the anti-spam honeypot the API checks.
 import { useTranslations, type Lang } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
   withAddress?: boolean;
+  addressRequired?: boolean;
 }
 
-const { lang, withAddress = true } = Astro.props;
+const { lang, withAddress = true, addressRequired = false } = Astro.props;
 const t = useTranslations(lang);
 const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 focus:border-berry focus:outline-none';
 ---
@@ -16,11 +18,11 @@ const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 
 <div class="grid gap-4 sm:grid-cols-2">
   <label class="block text-sm font-medium">
     {t('order.lastName')}
-    <input name="lastName" required autocomplete="family-name" class={input} />
+    <input name="lastName" required maxlength="80" autocomplete="family-name" class={input} />
   </label>
   <label class="block text-sm font-medium">
     {t('order.firstName')}
-    <input name="firstName" required autocomplete="given-name" class={input} />
+    <input name="firstName" required maxlength="80" autocomplete="given-name" class={input} />
   </label>
   <label class="block text-sm font-medium sm:col-span-2">
     {t('order.phone')}
@@ -30,8 +32,13 @@ const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 
     withAddress && (
       <label class="block text-sm font-medium sm:col-span-2" data-address>
         {t('order.address')}
-        <input name="address" autocomplete="street-address" class={input} />
+        <input name="address" autocomplete="street-address" required={addressRequired} maxlength="300" class={input} />
       </label>
     )
   }
+  <!-- Honeypot: invisible to people, bots fill it in and the API silently drops the submission. -->
+  <label class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+    Website
+    <input name="website" tabindex="-1" autocomplete="off" />
+  </label>
 </div>

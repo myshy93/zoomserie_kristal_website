@@ -1,0 +1,33 @@
+---
+// Landing page after a successful "Cere ofertă" post (/api/quotes redirects here with ?id=).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { localized, path, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} title={t('quote.thanksTitle')} paths={localized((l) => path('quoteThanks', l))}>
+  <section class="mx-auto max-w-3xl px-4 py-14">
+    <div role="status" class="rounded-3xl bg-white/70 p-6 shadow-sm">
+      <h1 class="text-3xl font-bold">{t('quote.thanksTitle')}</h1>
+      <p class="mt-2 text-cocoa-soft">{t('quote.thanksBody')}</p>
+      <p class="mt-4 font-semibold" data-quote-id hidden data-template={t('quote.thanksId', { id: '{id}' })}></p>
+      <a href={path('home', lang)} class="mt-4 inline-block font-semibold text-berry underline">{t('nav.home')}</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // The page is static; the request number comes from the redirect's query string.
+  const target = document.querySelector<HTMLElement>('[data-quote-id]');
+  const id = new URLSearchParams(location.search).get('id');
+  if (target && id && /^QR-[A-Z0-9]{6}$/.test(id)) {
+    target.textContent = target.dataset.template!.replace('{id}', id);
+    target.hidden = false;
+  }
+</script>

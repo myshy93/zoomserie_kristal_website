@@ -1,7 +1,7 @@
 ---
 // Cart + checkout. Lines live in localStorage (src/lib/cart.ts) and are rendered by
 // the script below; the whole order goes to /api/orders as one request, which
-// recomputes prices server-side (not implemented yet).
+// recomputes prices server-side (src/lib/server/pricing.ts).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactFields from '../components/ContactFields.astro';
 import { site } from '../config/site';
@@ -27,6 +27,15 @@ const config = {
     sending: t('cart.sending'),
     submit: t('order.submit'),
     error: t('cart.error'),
+    errorStale: t('cart.errorStale'),
+    errorFields: t('cart.errorFields', { fields: '{fields}' }),
+    orderId: t('cart.orderId', { id: '{id}' }),
+    fields: {
+      lastName: t('order.lastName'),
+      firstName: t('order.firstName'),
+      phone: t('order.phone'),
+      address: t('order.address'),
+    },
     unit: {
       bucata: t('unit.bucata'),
       kg: t('unit.kg'),
@@ -54,6 +63,7 @@ const config = {
     <div data-success hidden role="status" class="mt-8 rounded-3xl bg-white/70 p-6 shadow-sm">
       <h2 class="text-2xl font-bold">{t('cart.successTitle')}</h2>
       <p class="mt-2 text-cocoa-soft">{t('cart.successBody')}</p>
+      <p class="mt-4 font-semibold" data-order-id></p>
       <a href={path('home', lang)} class="mt-4 inline-block font-semibold text-berry underline">{t('nav.home')}</a>
     </div>
 
@@ -223,6 +233,7 @@ const config = {
             phone: data.get('phone'),
             address: data.get('address') ?? '',
             notes: data.get('notes') ?? '',
+            website: data.get('website') ?? '',
             items: lines.map(({ productId, unit, variations, message, quantity }) => ({
               productId,
               unit,
@@ -232,13 +243,24 @@ const config = {
             })),
           }),
         });
-        if (!response.ok) throw new Error(String(response.status));
+        const result = (await response.json().catch(() => ({}))) as { orderId?: string };
+        if (!response.ok) throw Object.assign(new Error(String(response.status)), { result });
         submitted = true;
         clearCart();
+        $('[data-order-id]').textContent = strings.orderId.replace('{id}', result.orderId);
         show('success');
         window.scrollTo({ top: 0 });
-      } catch {
-        errorBox.textContent = strings.error;
+      } catch (error) {
+        const result = (error as { result?: { error?: string; fields?: Record<string, string> } }).result;
+        const contactFields = Object.keys(result?.fields ?? {})
+          .map((name) => strings.fields[name])
+          .filter(Boolean);
+        errorBox.textContent =
+          result?.error === 'invalid_items'
+            ? strings.errorStale
+            : contactFields.length > 0
+              ? strings.errorFields.replace('{fields}', contactFields.join(', '))
+              : strings.error;
         errorBox.hidden = false;
         button.disabled = false;
         button.textContent = strings.submit;

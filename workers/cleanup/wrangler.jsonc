@@ -1,0 +1,31 @@
+// Standalone Worker for the GDPR retention job (see src/index.ts). Kept separate from
+// the Astro site so the cron doesn't depend on the adapter's generated entrypoint.
+{
+	"$schema": "../../node_modules/wrangler/config-schema.json",
+	"name": "zoomserie-cleanup",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-09-26",
+	"observability": {
+		"enabled": true
+	},
+	"triggers": {
+		// Daily at 03:00 UTC.
+		"crons": ["0 3 * * *"]
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "zoomserie-db",
+			"database_id": "cf0a6146-cf3d-4be3-9acf-79cbcf2271d0",
+			// Migrations are owned by the site's wrangler.jsonc; this points at the same folder
+			// so local dev can apply them to this Worker's local state.
+			"migrations_dir": "../../migrations"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "QUOTE_PHOTOS",
+			"bucket_name": "zoomserie-quote-photos"
+		}
+	]
+}

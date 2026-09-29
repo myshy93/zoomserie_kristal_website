@@ -111,6 +111,9 @@ const ro = {
   'cart.error': 'Comanda nu a putut fi trimisă. Încearcă din nou sau scrie-ne pe WhatsApp.',
   'cart.successTitle': 'Comanda a fost trimisă!',
   'cart.successBody': 'Te sunăm sau îți scriem noi în curând pentru confirmare. Plata se face la livrare sau la ridicare.',
+  'cart.orderId': 'Numărul comenzii: {id}',
+  'cart.errorStale': 'Unele produse din coș s-au modificat între timp. Șterge-le și adaugă-le din nou, apoi retrimite comanda.',
+  'cart.errorFields': 'Verifică datele de contact: {fields}.',
 
   'quote.title': 'Cere ofertă pentru un tort personalizat',
   'quote.intro':
@@ -123,6 +126,15 @@ const ro = {
   'quote.descriptionPlaceholder': 'Număr de persoane, arome preferate, culori, tematică...',
   'quote.photo': 'Poză de inspirație',
   'quote.submit': 'Trimite cererea',
+  'quote.photoHint': 'JPG, PNG, WEBP sau HEIC, maximum 10 MB.',
+  'quote.error.invalid': 'Cererea nu a putut fi trimisă. Verifică câmpurile și încearcă din nou.',
+  'quote.error.event_date': 'Pentru tortul de nuntă, alege data evenimentului (azi sau mai târziu).',
+  'quote.error.phone': 'Numărul de telefon nu pare valid. Folosește un număr românesc, ex. 0722 123 456.',
+  'quote.error.photo_type': 'Poza trebuie să fie JPG, PNG, WEBP sau HEIC.',
+  'quote.error.photo_size': 'Poza este prea mare (maximum 10 MB).',
+  'quote.thanksTitle': 'Cererea a fost trimisă!',
+  'quote.thanksBody': 'Ne uităm peste detalii și revenim cu o ofertă telefonic sau pe WhatsApp în cel mai scurt timp.',
+  'quote.thanksId': 'Numărul cererii: {id}',
 
   'gallery.title': 'Galerie',
   'gallery.body': 'Aici vor apărea cele mai noi postări de pe Instagram-ul nostru.',
@@ -249,6 +261,9 @@ const en: Record<UiKey, string> = {
   'cart.error': 'We couldn’t send your order. Please try again or message us on WhatsApp.',
   'cart.successTitle': 'Order sent!',
   'cart.successBody': 'We’ll call or message you soon to confirm. You pay on delivery or at pickup.',
+  'cart.orderId': 'Order number: {id}',
+  'cart.errorStale': 'Some products in your cart have changed. Remove them, add them again and resend the order.',
+  'cart.errorFields': 'Please check your details: {fields}.',
 
   'quote.title': 'Request a quote for a custom cake',
   'quote.intro':
@@ -261,6 +276,15 @@ const en: Record<UiKey, string> = {
   'quote.descriptionPlaceholder': 'Number of guests, favourite flavours, colours, theme...',
   'quote.photo': 'Inspiration photo',
   'quote.submit': 'Send request',
+  'quote.photoHint': 'JPG, PNG, WEBP or HEIC, up to 10 MB.',
+  'quote.error.invalid': 'We couldn’t send your request. Please check the fields and try again.',
+  'quote.error.event_date': 'For a wedding cake, please choose the event date (today or later).',
+  'quote.error.phone': 'That phone number doesn’t look valid. Please use a Romanian number, e.g. 0722 123 456.',
+  'quote.error.photo_type': 'The photo must be JPG, PNG, WEBP or HEIC.',
+  'quote.error.photo_size': 'The photo is too large (10 MB max).',
+  'quote.thanksTitle': 'Request sent!',
+  'quote.thanksBody': 'We’ll look over the details and get back to you with a quote by phone or WhatsApp soon.',
+  'quote.thanksId': 'Request number: {id}',
 
   'gallery.title': 'Gallery',
   'gallery.body': 'Our latest Instagram posts will appear here.',

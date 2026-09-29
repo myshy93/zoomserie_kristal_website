@@ -11,6 +11,12 @@
 	"observability": {
 		"enabled": true
 	},
+	// Owner email notifications (src/lib/server/notify.ts). Secrets, set with
+	// `wrangler secret put` (or in .dev.vars locally): RESEND_API_KEY, OWNER_EMAIL.
+	// MAIL_FROM switches to an address on the real domain once it's verified in Resend.
+	"vars": {
+		"MAIL_FROM": "Zoomserie <onboarding@resend.dev>"
+	},
 	"d1_databases": [
 		{
 			"binding": "DB",

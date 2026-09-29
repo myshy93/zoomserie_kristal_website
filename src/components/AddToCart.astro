@@ -22,7 +22,7 @@ const config = {
   pricing,
   variations: variations.map((v) => ({
     id: v.id,
-    options: v.options.map((o) => ({ id: o.id, label: o.label, delta: o.priceDeltaRon })),
+    options: v.options.map((o) => ({ id: o.id, label: o.label })),
   })),
   lang,
   locale: lang === 'ro' ? 'ro-RO' : 'en-GB',
@@ -59,10 +59,7 @@ const config = {
           {variation.label[lang]}
           <select name={`variation.${variation.id}`} class={input}>
             {variation.options.map((option) => (
-              <option value={option.id}>
-                {option.label[lang]}
-                {option.priceDeltaRon > 0 && ` (+${formatPrice(option.priceDeltaRon, lang)})`}
-              </option>
+              <option value={option.id}>{option.label[lang]}</option>
             ))}
           </select>
         </label>
@@ -100,7 +97,7 @@ const config = {
     name: { ro: string; en: string };
     url: { ro: string; en: string };
     pricing: { unit: string; priceRon: number }[];
-    variations: { id: string; options: { id: string; label: { ro: string; en: string }; delta: number }[] }[];
+    variations: { id: string; options: { id: string; label: { ro: string; en: string } }[] }[];
     locale: string;
   }
 
@@ -115,12 +112,12 @@ const config = {
       const unit = field('unit')!.value;
       const variations: Record<string, string> = {};
       const options: { ro: string; en: string }[] = [];
-      let unitPrice = config.pricing.find((p) => p.unit === unit)!.priceRon;
+      // Fixed rate per unit (piece or kg); variations don't affect the price.
+      const unitPrice = config.pricing.find((p) => p.unit === unit)!.priceRon;
       for (const variation of config.variations) {
         const option = variation.options.find((o) => o.id === field(`variation.${variation.id}`)!.value)!;
         variations[variation.id] = option.id;
         options.push(option.label);
-        unitPrice += option.delta;
       }
       return { unit, variations, options, unitPrice };
     };

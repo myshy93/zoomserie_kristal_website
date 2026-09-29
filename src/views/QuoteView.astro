@@ -1,6 +1,7 @@
 ---
-// "Cere ofertă" for custom and wedding cakes. Submission endpoint (/api/quotes →
-// R2 photo upload + D1 + owner notifications) is not implemented yet.
+// "Cere ofertă" for custom and wedding cakes. Posts natively (no JS needed) to
+// /api/quotes, which stores the photo in R2 and the request in D1, emails the owner
+// and redirects to the thank-you page, or back here with `?error=<code>`.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactFields from '../components/ContactFields.astro';
 import { localized, path, useTranslations, type Lang } from '../i18n/utils';
@@ -11,6 +12,13 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const errors = {
+  invalid: t('quote.error.invalid'),
+  event_date: t('quote.error.event_date'),
+  phone: t('quote.error.phone'),
+  photo_type: t('quote.error.photo_type'),
+  photo_size: t('quote.error.photo_size'),
+};
 const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 focus:border-berry focus:outline-none';
 ---
 
@@ -25,7 +33,9 @@ const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 
       enctype="multipart/form-data"
       class="mt-10 space-y-6 rounded-3xl bg-white/70 p-6 shadow-sm"
       data-quote-form
+      data-errors={JSON.stringify(errors)}
     >
+      <p role="alert" class="rounded-lg bg-red-50 px-4 py-3 text-sm font-medium text-red-700" data-error hidden></p>
       <input type="hidden" name="lang" value={lang} />
 
       <fieldset>
@@ -49,16 +59,22 @@ const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 
 
       <label class="block text-sm font-medium">
         {t('quote.description')}
-        <textarea name="description" rows="5" required placeholder={t('quote.descriptionPlaceholder')} class={input}
+        <textarea name="description" rows="5" required maxlength="2000" placeholder={t('quote.descriptionPlaceholder')} class={input}
         ></textarea>
       </label>
 
       <label class="block text-sm font-medium">
         {t('quote.photo')}
-        <input name="photo" type="file" accept="image/*" class={`${input} file:mr-3 file:rounded-full file:border-0 file:bg-cream-deep file:px-3 file:py-1`} />
+        <input
+          name="photo"
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+          class={`${input} file:mr-3 file:rounded-full file:border-0 file:bg-cream-deep file:px-3 file:py-1`}
+        />
+        <span class="mt-1 block text-xs font-normal text-cocoa-soft">{t('quote.photoHint')}</span>
       </label>
 
-      <ContactFields lang={lang} />
+      <ContactFields lang={lang} addressRequired />
 
       <p class="text-sm text-cocoa-soft">{t('order.disclaimer')}</p>
       <button type="submit" class="rounded-full bg-berry px-6 py-3 font-semibold text-white hover:bg-berry-dark">
@@ -72,11 +88,29 @@ const input = 'mt-1 w-full rounded-lg border border-cocoa/20 bg-white px-3 py-2 
   // Wedding cakes also need the event date. `?tip=nunta` preselects the wedding option.
   const form = document.querySelector<HTMLFormElement>('[data-quote-form]');
   if (form) {
-    const kind = new URLSearchParams(location.search).get('tip');
+    const params = new URLSearchParams(location.search);
+    const errors: Record<string, string> = JSON.parse(form.dataset.errors!);
+    const error = params.get('error');
+    if (error) {
+      const box = form.querySelector<HTMLElement>('[data-error]')!;
+      box.textContent = errors[error] ?? errors.invalid;
+      box.hidden = false;
+    }
+
+    // Catch an oversized photo before uploading it.
+    const photo = form.querySelector<HTMLInputElement>('input[name="photo"]')!;
+    photo.addEventListener('change', () => {
+      const tooBig = (photo.files?.[0]?.size ?? 0) > 10 * 1024 * 1024;
+      photo.setCustomValidity(tooBig ? errors.photo_size : '');
+      photo.reportValidity();
+    });
+
+    const kind = params.get('tip');
     const preset = form.querySelector<HTMLInputElement>(`input[name="kind"][value="${kind}"]`);
     if (preset) preset.checked = true;
 
     const eventDate = form.querySelector<HTMLElement>('[data-event-date]');
+    eventDate?.querySelector('input')!.setAttribute('min', new Date().toISOString().slice(0, 10));
     const sync = () => {
       const wedding = form.querySelector<HTMLInputElement>('input[name="kind"]:checked')?.value === 'nunta';
       if (!eventDate) return;

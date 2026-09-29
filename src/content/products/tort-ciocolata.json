@@ -22,21 +22,12 @@
   },
   "variations": [
     {
-      "id": "dimensiune",
-      "type": "dimensiune",
-      "label": { "ro": "Dimensiune", "en": "Size" },
-      "options": [
-        { "id": "1-5kg", "label": { "ro": "1,5 kg (8–10 porții)", "en": "1.5 kg (8–10 servings)" } },
-        { "id": "2-5kg", "label": { "ro": "2,5 kg (14–16 porții)", "en": "2.5 kg (14–16 servings)" }, "priceDeltaRon": 160 }
-      ]
-    },
-    {
       "id": "decor",
       "type": "decor",
       "label": { "ro": "Decor", "en": "Decoration" },
       "options": [
         { "id": "clasic", "label": { "ro": "Clasic", "en": "Classic" } },
-        { "id": "fructe", "label": { "ro": "Cu fructe proaspete", "en": "With fresh fruit" }, "priceDeltaRon": 30 }
+        { "id": "fructe", "label": { "ro": "Cu fructe proaspete", "en": "With fresh fruit" } }
       ]
     }
   ],

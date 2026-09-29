@@ -14,7 +14,9 @@
     "generate-types": "wrangler types",
     "db:migrate:local": "wrangler d1 migrations apply DB --local",
     "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
-    "db:cleanup:local": "wrangler d1 execute DB --local --file=db/cleanup.sql"
+    "db:cleanup:local": "wrangler d1 execute DB --local --file=db/cleanup.sql",
+    "cleanup:dev": "wrangler dev --config workers/cleanup/wrangler.jsonc --test-scheduled --persist-to .wrangler/state",
+    "cleanup:deploy": "wrangler deploy --config workers/cleanup/wrangler.jsonc"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.3",
