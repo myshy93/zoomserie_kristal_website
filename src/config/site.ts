@@ -44,5 +44,6 @@ export const site = {
     companyName: 'TODO SRL',
     cui: 'TODO',
     regCom: 'TODO',
+    registeredOffice: 'TODO', // sediul social, for the privacy policy (may differ from the shop address)
   },
 } as const;

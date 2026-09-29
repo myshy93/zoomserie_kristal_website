@@ -190,6 +190,11 @@ const ro = {
     'Poți modifica sau retrage oricând acordul din butonul de mai jos sau din linkul „Setări cookie” din subsolul paginii. Datele stocate se pot șterge și din setările browserului.',
   'cookiePolicy.updated': 'Ultima actualizare: {date}',
 
+  'privacy.title': 'Politica de confidențialitate',
+  'privacy.updated': 'Ultima actualizare: {date}',
+  'privacy.formNotice': 'Folosim datele tale doar pentru a-ți procesa comanda sau cererea. Detalii în',
+  'privacy.formLink': 'Politica de confidențialitate',
+
   'footer.rights': 'Toate drepturile rezervate.',
   'footer.anpc': 'ANPC – Soluționarea alternativă a litigiilor',
   'footer.cookieSettings': 'Setări cookie',
@@ -384,6 +389,11 @@ const en: Record<UiKey, string> = {
   'cookiePolicy.manageBody':
     'You can change or withdraw your consent at any time with the button below or the “Cookie settings” link in the footer. You can also delete stored data from your browser settings.',
   'cookiePolicy.updated': 'Last updated: {date}',
+
+  'privacy.title': 'Privacy policy',
+  'privacy.updated': 'Last updated: {date}',
+  'privacy.formNotice': 'We only use your details to process your order or request. See our',
+  'privacy.formLink': 'Privacy policy',
 
   'footer.rights': 'All rights reserved.',
   'footer.anpc': 'ANPC – Alternative dispute resolution',

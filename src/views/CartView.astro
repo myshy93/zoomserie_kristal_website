@@ -109,6 +109,10 @@ const config = {
         </label>
 
         <p class="text-sm text-cocoa-soft">{t('order.disclaimer')}</p>
+        <p class="text-sm text-cocoa-soft">
+          {t('privacy.formNotice')}{' '}
+          <a href={path('privacy', lang)} target="_blank" class="text-berry underline">{t('privacy.formLink')}</a>.
+        </p>
         <p role="alert" class="text-sm font-medium text-red-700" data-error hidden></p>
         <button
           type="submit"

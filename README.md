@@ -74,9 +74,10 @@ The products in `src/content/products/` that are marked "(exemplu)" are samples.
   2. Restrict the key. Under HTTP referrers, allow the production domain, `*.pages.dev` and `localhost:4321`. Under APIs, allow **Maps Embed API** only.
   3. Set `PUBLIC_GOOGLE_MAPS_EMBED_KEY` in `.env` locally and in the environment where the production build runs. It is inlined at build time. The key is public by design; the referrer restriction is what protects it.
 - **Cookie consent** (`src/lib/consent.ts`, `CookieBanner.astro`): the choice is stored in `localStorage` (`zoomserie.consent.v1`). Today there is one optional category, `media` (external embeds). Add `analytics` when GA4 goes in, and update the cookie policy page (`/politica-cookies`) at the same time. Any element with `data-open-cookie-settings` reopens the banner.
+- **Privacy policy** (`/politica-confidentialitate`, `/en/privacy-policy`): the bilingual text is in `src/i18n/privacy.ts` and the company details come from `site.legal`. Both forms link to it next to the submit button. Update the policy and its `updated` date whenever the retention job, a data processor (Cloudflare, Mailjet, WhatsApp, Google) or a collected field changes, e.g. GA4 or the Instagram feed.
 
 ## Not done yet
 
 - WhatsApp Cloud API owner notification (needs the business number + an approved template). Email is live via Mailjet once the sender and secrets are set.
 - Instagram gallery embed, GA4, Search Console, real brand, domain and business details.
-- Real opening hours, exact map pin / Google place ID, and a privacy policy page (the order and quote forms collect personal data). The cookie policy text is a draft for the client to review.
+- Real opening hours, exact map pin / Google place ID, and the company's legal details (`site.legal`, which also feed the privacy policy). The privacy and cookie policy texts are drafts for the client to review.
