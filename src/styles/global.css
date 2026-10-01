@@ -4,10 +4,10 @@
    Brand identity is still a placeholder until the client finalizes it.
    Contrast (WCAG AA, 4.5:1): bronze and muted pass on ivory; on sand use ink or bronze-dark. */
 @theme {
-  --color-ivory: #f4efe9;
-  --color-ivory-light: #faf7f3;
-  --color-sand: #e9e1d8;
-  --color-sand-dark: #d8ccbf;
+  --color-ivory: #fefcf9;
+  --color-ivory-light: #ffffff;
+  --color-sand: #f7f2eb;
+  --color-sand-dark: #ebe3d8;
   --color-bronze: #8b5a36;
   --color-bronze-dark: #724828;
   --color-bronze-light: #c7a27c;
