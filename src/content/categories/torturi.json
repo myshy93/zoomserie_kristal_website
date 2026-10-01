@@ -8,5 +8,6 @@
     "en": "Whole cakes or by the slice, for any occasion."
   },
   "order": 2,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/torturi-1200.webp"
 }

@@ -8,5 +8,6 @@
     "en": "Specialty coffee, to go or to stay."
   },
   "order": 5,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/cafea-1200.webp"
 }

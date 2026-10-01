@@ -8,5 +8,6 @@
     "en": "Assorted mini desserts for parties and family gatherings."
   },
   "order": 3,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/candy-bar-1200.webp"
 }

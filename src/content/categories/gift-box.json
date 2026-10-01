@@ -8,5 +8,6 @@
     "en": "Gift boxes of assorted sweets."
   },
   "order": 6,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/gift-box-1200.webp"
 }

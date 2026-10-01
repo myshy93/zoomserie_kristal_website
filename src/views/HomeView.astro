@@ -16,12 +16,15 @@ const t = useTranslations(lang);
 const categories = await getCategories();
 const byId = new Map(categories.map((c) => [c.id, c]));
 // Home tiles: first row of three, second row of two.
-const featured = ['greek-collection', 'torturi', 'cafea', 'gift-box', 'tort-nunta']
+const featured = ['prajituri', 'torturi', 'cafea', 'gift-box', 'tort-nunta']
   .map((id) => byId.get(id))
   .filter((c) => c !== undefined);
 // The hero goes full-bleed once the Greek collection's photo flag is on.
 const greek = byId.get('greek-collection');
-const hero = greek ? categoryImage(greek) : { image: PLACEHOLDER_IMAGE, isPlaceholder: true };
+const hero = greek ? categoryImage(greek) : { image: PLACEHOLDER_IMAGE, srcset: undefined, isPlaceholder: true };
+// The hero is shown full width, so it also gets the near-lossless full-size file.
+const heroFull = hero.image.replace('-1200.', '-full.');
+const heroSrcset = hero.srcset && heroFull !== hero.image ? `${hero.srcset}, ${heroFull} 1448w` : hero.srcset;
 
 const circle = (cx: number, cy: number, r: number) =>
   `M${(cx - r).toFixed(2)} ${cy.toFixed(2)}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0`;
@@ -58,25 +61,46 @@ const values = [
 <BaseLayout lang={lang} paths={localized((l) => path('home', l))}>
   <LocalBusinessSchema slot="head" lang={lang} />
 
-  <section class="relative overflow-hidden border-b border-ink/10 bg-ivory">
+  <section
+    class:list={['relative overflow-hidden border-b border-ink/10 bg-ivory', !hero.isPlaceholder && 'lg:-mt-[var(--header-h)]']}
+  >
     {
       hero.isPlaceholder ? (
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,var(--color-sand)_0%,transparent_60%)]" />
       ) : (
-        <>
-          <img src={hero.image} alt="" class="absolute inset-0 size-full object-cover object-right" />
-          <div class="absolute inset-0 bg-linear-to-r from-ivory from-25% via-ivory/70 via-50% to-transparent" />
-        </>
+        // Below lg: the whole photo (4:3, uncropped) under the header, text underneath.
+        // From lg up: full-bleed behind the text and under the header.
+        <div class="relative aspect-[4/3] overflow-hidden lg:absolute lg:inset-0 lg:aspect-auto">
+          <img
+            src={heroFull}
+            srcset={heroSrcset}
+            sizes="100vw"
+            alt=""
+            width="1200"
+            height="900"
+            fetchpriority="high"
+            class="hero-photo size-full -scale-x-100 object-cover saturate-[0.82] contrast-[0.97] lg:translate-x-[6%]"
+          />
+          <div class="absolute inset-x-0 top-0 -bottom-px bg-linear-to-t from-ivory from-3% via-ivory/35 via-18% to-transparent to-40% lg:bg-linear-to-r lg:from-ivory lg:from-15% lg:via-ivory/60 lg:via-35% lg:to-transparent lg:to-62%" />
+        </div>
       )
     }
-    <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-24">
+    <div
+      class:list={[
+        'relative mx-auto grid max-w-7xl items-center gap-12 px-4 pb-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:pb-24',
+        hero.isPlaceholder ? 'pt-16 lg:pt-24' : '-mt-6 pt-0 lg:mt-0 lg:pt-[calc(var(--header-h)+4rem)]',
+      ]}
+    >
       <div class="text-center">
-        <p class="font-serif text-2xl tracking-[0.3em] uppercase">{site.name}</p>
-        <h1 class="mt-3 text-5xl sm:text-6xl lg:text-7xl">{t('home.hero.title')}</h1>
-        <p class="caps mt-6 text-xs tracking-[0.35em] text-ink/80">{t('home.hero.eyebrow')}</p>
-        <div class="mt-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-          <a href={path('products', lang)} class="btn btn-outline px-9 py-3.5">{t('home.hero.ctaProducts')}</a>
-          <a href={path('quote', lang)} class="caps text-ink transition hover:text-bronze">{t('home.hero.ctaQuote')} →</a>
+        <h1 class="hero-rise text-5xl sm:text-6xl lg:text-7xl" style="--delay: 150ms">{t('home.hero.title')}</h1>
+        <p class="hero-rise caps mt-6 text-xs tracking-[0.35em] text-ink/80" style="--delay: 300ms">{t('home.hero.eyebrow')}</p>
+        <div class="hero-rise mt-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-1" style="--delay: 450ms">
+          <a
+            href={path('products', lang)}
+            class="btn btn-primary px-9 py-3.5 font-sans text-xs tracking-[0.2em] uppercase"
+            >{t('home.hero.ctaProducts')}</a
+          >
+          <a href={path('quote', lang)} class="caps inline-block py-3.5 text-ink transition hover:text-bronze">{t('home.hero.ctaQuote')} →</a>
         </div>
       </div>
       {
@@ -102,7 +126,7 @@ const values = [
             </svg>
             <div>
               <p class="font-serif text-xl leading-tight">{value.title}</p>
-              <p class="caps mt-1 text-[10px] text-muted">{value.body}</p>
+              <p class="mt-1 font-sans text-xs leading-snug text-muted">{value.body}</p>
             </div>
           </li>
         ))
@@ -112,16 +136,27 @@ const values = [
 
   <section class="grid gap-2 bg-ivory-light py-2" aria-labelledby="home-categories">
     <h2 id="home-categories" class="sr-only">{t('home.categories.title')}</h2>
-    <div class="grid gap-2 lg:grid-cols-3">
-      {featured.slice(0, 3).map((category) => <CategoryTile category={category} lang={lang} />)}
-    </div>
-    <div class="grid gap-2 lg:grid-cols-[1fr_1.2fr]">
-      {featured.slice(3).map((category, i) => <CategoryTile category={category} lang={lang} reverse={i === 0} />)}
+    {/* Swipeable strip on phones and tablets; from lg up a 3 + 2 grid (11/11/11, then 15/18 of 33 columns). */}
+    <div
+      class="flex snap-x snap-mandatory scroll-px-4 gap-2 overflow-x-auto px-4 [scrollbar-width:none] lg:grid lg:grid-cols-33 lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden"
+    >
+      {
+        featured.map((category, i) => (
+          <CategoryTile
+            category={category}
+            lang={lang}
+            class:list={[
+              'w-[78%] max-w-[22rem] shrink-0 snap-start sm:w-[45%] lg:w-auto lg:max-w-none',
+              i < 3 ? 'lg:col-span-11' : i === 3 ? 'lg:col-span-15' : 'lg:col-span-18',
+            ]}
+          />
+        ))
+      }
     </div>
   </section>
 
   <div class="bg-ivory py-12 text-center">
-    <a href={path('products', lang)} class="btn btn-outline px-9 py-3.5">{t('home.hero.ctaProducts')}</a>
+    <a href={path('products', lang)} class="btn btn-outline px-9 py-3.5">{t('home.ctaAllProducts')}</a>
   </div>
 
   <section class="bg-linear-to-b from-ivory to-sand px-4 py-20 text-center">

@@ -1,5 +1,4 @@
 ---
-import Laurel from './Laurel.astro';
 import { site } from '../config/site';
 import { languages } from '../i18n/ui';
 import { path, useTranslations, type Lang, type RouteKey } from '../i18n/utils';
@@ -27,45 +26,82 @@ const isActive = (key: RouteKey, href: string) =>
   current === href || (key !== 'home' && current.startsWith(`${href}/`));
 ---
 
-<header class="border-b border-ink/10 bg-ivory">
+<a
+  href="#main"
+  class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-sm focus:text-ivory"
+  >{t('nav.skip')}</a
+>
+
+<header
+  class="sticky top-0 z-40 transition-transform duration-200 data-[hidden=true]:-translate-y-full motion-reduce:transition-none border-b border-ink/10 bg-ivory/90 backdrop-blur-md backdrop-saturate-150 supports-[backdrop-filter]:bg-ivory/70"
+>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-4 pt-6 pb-4">
-      <p class="caps hidden max-w-[12rem] text-[10px] leading-loose text-muted sm:block">{t('site.motto')}</p>
-      <span class="sm:hidden"></span>
+    <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-2 py-3 md:gap-4 md:pt-4 md:pb-2">
+      <div class="flex items-center">
+        <button
+          type="button"
+          class="group -ml-2.5 flex size-11 cursor-pointer items-center justify-center transition hover:text-bronze md:hidden"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label={t('nav.menu')}
+          data-menu-button
+          data-label-open={t('nav.menu')}
+          data-label-close={t('nav.menuClose')}
+        >
+          <svg viewBox="0 0 24 24" class="size-6 group-aria-expanded:hidden" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+          <svg viewBox="0 0 24 24" class="hidden size-6 group-aria-expanded:block" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"></path>
+          </svg>
+        </button>
+        <p class="caps hidden max-w-[12rem] text-[10px] leading-loose text-muted lg:block">{t('site.motto')}</p>
+      </div>
 
       <a href={path('home', lang)} class="group flex flex-col items-center text-center">
-        <Laurel class="w-16 text-bronze sm:w-20" />
-        <span
-          class="font-serif text-3xl leading-none font-medium tracking-[0.18em] uppercase transition-colors group-hover:text-bronze sm:text-5xl"
+                <span
+          class="font-serif text-2xl leading-none font-medium tracking-[0.18em] uppercase transition-colors group-hover:text-bronze md:text-4xl lg:text-[2.6rem]"
         >
           {site.name}
         </span>
-        <span class="caps mt-2 hidden text-[10px] tracking-[0.3em] text-muted sm:block">{t('site.tagline')}</span>
       </a>
 
-      <div class="flex flex-col items-end gap-3">
-        <a href={path('cart', lang)} class="relative p-1 transition hover:text-bronze" aria-label={t('cart.nav')}>
+      <div class="flex flex-col items-end md:flex-row-reverse md:items-center md:justify-end md:gap-1">
+        <a
+          href={path('cart', lang)}
+          data-cart-link
+          data-label={t('cart.nav')}
+          data-label-count={t('cart.navCount', { count: '{count}' })}
+          class="relative -mr-2.5 p-2.5 transition hover:text-bronze md:-mr-2.5 md:p-2.5"
+          aria-label={t('cart.nav')}
+        >
           <svg viewBox="0 0 24 24" class="size-6" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
             <path d="M6 8h12l-1 13H7L6 8z" stroke-linejoin="round"></path>
             <path d="M9 10V6a3 3 0 0 1 6 0v4" stroke-linecap="round"></path>
           </svg>
           <span
-            class="absolute -top-1 -right-2 flex size-5 items-center justify-center rounded-full bg-bronze text-[10px] font-semibold text-white"
+            class="absolute top-1 right-0 flex size-5 items-center justify-center rounded-full bg-bronze text-[10px] font-semibold text-white md:-top-0.5 md:-right-1.5"
             data-cart-count
+            aria-hidden="true"
             hidden></span>
         </a>
-        <ul class="caps flex gap-1.5 text-[11px] text-muted">
+        <span class="sr-only" role="status" data-cart-status></span>
+        <ul class="caps hidden text-[11px] text-muted md:flex">
           {
             (Object.keys(languages) as Lang[]).map((l, i) => (
               <>
-                {i > 0 && <li aria-hidden="true">|</li>}
+                {i > 0 && (
+                  <li aria-hidden="true" class="py-3.5">
+                    |
+                  </li>
+                )}
                 <li>
                   {l === lang ? (
-                    <span class="text-ink" aria-current="true">
+                    <span class="inline-block px-3 py-3.5 text-ink" aria-current="true">
                       {l.toUpperCase()}
                     </span>
                   ) : (
-                    <a href={paths[l]} hreflang={l} lang={l} title={languages[l]} class="transition hover:text-bronze">
+                    <a href={paths[l]} hreflang={l} lang={l} title={languages[l]} aria-label={languages[l]} class="inline-block px-3 py-3.5 transition hover:text-bronze">
                       {l.toUpperCase()}
                     </a>
                   )}
@@ -77,10 +113,9 @@ const isActive = (key: RouteKey, href: string) =>
       </div>
     </div>
 
-    <div class="grid items-center gap-4 pb-4 lg:grid-cols-[1fr_auto_1fr]">
-      <span class="hidden lg:block"></span>
-      <nav class="-mx-4 overflow-x-auto px-4 [scrollbar-width:none] lg:mx-0 lg:px-0">
-        <ul class="flex gap-7 font-serif text-lg whitespace-nowrap sm:justify-center lg:gap-9">
+    <div class="hidden pb-1 md:block">
+      <nav aria-label={t('nav.main')}>
+        <ul class="flex justify-center gap-7 font-serif text-lg whitespace-nowrap lg:gap-9">
           {
             links.map(({ key, label }) => {
               const href = path(key, lang);
@@ -90,8 +125,8 @@ const isActive = (key: RouteKey, href: string) =>
                   <a
                     href={href}
                     class:list={[
-                      'relative inline-block py-1 transition hover:text-bronze',
-                      active && 'font-semibold after:absolute after:inset-x-1 after:-bottom-1 after:h-px after:bg-ink',
+                      'relative inline-block py-2 transition hover:text-bronze',
+                      active && 'font-semibold after:absolute after:inset-x-1 after:bottom-1 after:h-px after:bg-ink',
                     ]}
                     aria-current={active ? 'page' : undefined}
                   >
@@ -103,7 +138,49 @@ const isActive = (key: RouteKey, href: string) =>
           }
         </ul>
       </nav>
-      <a href={path('products', lang)} class="btn btn-primary hidden justify-self-end lg:inline-flex">{t('nav.order')}</a>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="max-h-[calc(100dvh-4.75rem)] overflow-y-auto border-t border-ink/10 md:hidden" hidden>
+    <div class="mx-auto max-w-7xl px-4 pb-6 sm:px-6">
+      <nav aria-label={t('nav.menu')}>
+        <ul class="font-serif text-xl">
+          {
+            links.map(({ key, label }) => {
+              const href = path(key, lang);
+              const active = isActive(key, href);
+              return (
+                <li class="border-b border-ink/10 last:border-b-0">
+                  <a
+                    href={href}
+                    class:list={['flex min-h-12 items-center transition hover:text-bronze', active && 'font-semibold']}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {label}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
+      <ul class="caps mt-2 flex justify-center gap-2 text-[11px] text-muted">
+        {
+          (Object.keys(languages) as Lang[]).map((l) => (
+            <li>
+              {l === lang ? (
+                <span class="inline-block px-4 py-4 text-ink" aria-current="true">
+                  {languages[l]}
+                </span>
+              ) : (
+                <a href={paths[l]} hreflang={l} lang={l} class="inline-block px-4 py-4 transition hover:text-bronze">
+                  {languages[l]}
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </div>
 </header>
@@ -111,11 +188,80 @@ const isActive = (key: RouteKey, href: string) =>
 <script>
   import { cartCount, watchCart } from '../lib/cart';
 
+  const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-button]');
+  const menu = document.getElementById('mobile-menu');
+  const setMenu = (open: boolean) => {
+    if (!menuButton || !menu) return;
+    menu.hidden = !open;
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.setAttribute('aria-label', (open ? menuButton.dataset.labelClose : menuButton.dataset.labelOpen) ?? '');
+  };
+  menuButton?.addEventListener('click', () => setMenu(Boolean(menu?.hidden)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu && !menu.hidden) {
+      setMenu(false);
+      menuButton?.focus();
+    }
+  });
+  // Leaving the phone layout while open would otherwise leave the button state stale.
+  matchMedia('(min-width: 768px)').addEventListener('change', (e) => {
+    if (e.matches) setMenu(false);
+  });
+
+  const bar = document.querySelector('header > div');
+  if (bar) {
+    const sync = () => document.documentElement.style.setProperty('--header-h', `${bar.getBoundingClientRect().height + 1}px`);
+    new ResizeObserver(sync).observe(bar);
+    sync();
+  }
+
+  const header = document.querySelector<HTMLElement>('header');
+  if (header) {
+    // Slide away while scrolling down to give reading room; slide back on any upward scroll.
+    // It stays put near the top, while the mobile menu is open and while focus is inside it.
+    let lastY = scrollY;
+    let ticking = false;
+    const setHidden = (hidden: boolean) => {
+      header.dataset.hidden = String(hidden);
+    };
+    const update = () => {
+      ticking = false;
+      const y = scrollY;
+      const menuOpen = menu ? !menu.hidden : false;
+      if (y < 160 || menuOpen) setHidden(false);
+      else if (y > lastY + 6) setHidden(true);
+      else if (y < lastY - 6) setHidden(false);
+      if (Math.abs(y - lastY) > 6) lastY = y;
+    };
+    addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true },
+    );
+    header.addEventListener('focusin', () => setHidden(false));
+  }
+
   const badge = document.querySelector<HTMLElement>('[data-cart-count]');
+  const cartLink = document.querySelector<HTMLElement>('[data-cart-link]');
+  const cartStatus = document.querySelector<HTMLElement>('[data-cart-status]');
+  let previousCount: number | undefined;
   watchCart((lines) => {
-    if (!badge) return;
     const count = cartCount(lines);
-    badge.textContent = String(count);
-    badge.hidden = count === 0;
+    if (badge) {
+      badge.textContent = String(count);
+      badge.hidden = count === 0;
+    }
+    if (cartLink) {
+      const label = count > 0 ? (cartLink.dataset.labelCount ?? '').replace('{count}', String(count)) : cartLink.dataset.label;
+      cartLink.setAttribute('aria-label', label ?? '');
+      // Announce changes after the initial render only.
+      if (cartStatus && previousCount !== undefined && count !== previousCount) cartStatus.textContent = label ?? '';
+    }
+    previousCount = count;
   });
 </script>

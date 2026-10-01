@@ -8,5 +8,6 @@
     "en": "Artisanal ice cream."
   },
   "order": 14,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/inghetata-1200.webp"
 }

@@ -8,5 +8,6 @@
     "en": "Fresh sweet and savoury bakes."
   },
   "order": 4,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/patiserie-1200.webp"
 }

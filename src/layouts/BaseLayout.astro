@@ -44,7 +44,7 @@ const alternateUrl = new URL(paths[otherLang(lang)], site.url);
   </head>
   <body class="flex min-h-screen flex-col bg-ivory font-sans text-ink antialiased">
     <Header lang={lang} paths={paths} />
-    <main class="flex-1">
+    <main id="main" tabindex="-1" class="flex-1 focus:outline-none">
       <slot />
     </main>
     <Footer lang={lang} />

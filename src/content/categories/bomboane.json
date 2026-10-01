@@ -8,5 +8,6 @@
     "en": "Handmade chocolate bonbons."
   },
   "order": 9,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/bomboane-1200.webp"
 }

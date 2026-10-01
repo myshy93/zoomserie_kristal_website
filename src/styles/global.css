@@ -19,7 +19,23 @@
   --font-sans: var(--font-jost);
 }
 
+/* Height of the sticky header bar (without the open mobile menu). The first-paint values are
+   estimates; Header.astro measures the real height. The home hero uses it to slide under the header. */
+:root {
+  --header-h: 4.75rem;
+}
+@media (min-width: 768px) {
+  :root {
+    --header-h: 8.75rem;
+  }
+}
+
 @layer base {
+  /* The header is sticky: keep focused elements and anchor targets clear of it. */
+  html {
+    scroll-padding-top: var(--header-h);
+  }
+
   h1, h2, h3 {
     font-family: var(--font-serif);
     font-weight: 500;
@@ -62,5 +78,28 @@
 
   .link {
     @apply font-medium text-bronze underline underline-offset-4 hover:text-bronze-dark;
+  }
+}
+
+/* Home hero: one load sequence. The photo settles from a slight zoom (no opacity change, so it
+   never delays the largest paint) while the text rises in three steps. Skipped for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-photo {
+    animation: hero-settle 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero-rise {
+    animation: hero-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: var(--delay, 0ms);
+  }
+  @keyframes hero-settle {
+    from {
+      transform: scale(1.05);
+    }
+  }
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
   }
 }

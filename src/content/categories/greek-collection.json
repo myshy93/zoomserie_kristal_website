@@ -8,5 +8,6 @@
     "en": "Desserts inspired by Greek cuisine."
   },
   "order": 7,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/greek-collection-1200.webp"
 }

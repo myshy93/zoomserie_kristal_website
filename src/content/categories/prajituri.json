@@ -8,5 +8,6 @@
     "en": "Classic and modern pastries, by the piece or by the kilo."
   },
   "order": 1,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/prajituri-1200.webp"
 }

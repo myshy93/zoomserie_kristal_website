@@ -8,5 +8,6 @@
     "en": "Homemade cookies, boxed or by the kilo."
   },
   "order": 8,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/fursecuri-1200.webp"
 }

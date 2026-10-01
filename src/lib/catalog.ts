@@ -45,9 +45,12 @@ export function productImages(product: Product, category: Category): { images: s
   return { images: [PLACEHOLDER_IMAGE], isPlaceholder: true };
 }
 
-export function categoryImage(category: Category): { image: string; isPlaceholder: boolean } {
-  if (category.data.photosReady && category.data.image) {
-    return { image: category.data.image, isPlaceholder: false };
+/** Category photos ship as `<slug>-1200.webp` plus a `-640` variant for small tiles. */
+export function categoryImage(category: Category): { image: string; srcset?: string; isPlaceholder: boolean } {
+  const image = category.data.image;
+  if (category.data.photosReady && image) {
+    const small = image.replace('-1200.', '-640.');
+    return { image, srcset: small === image ? undefined : `${small} 640w, ${image} 1200w`, isPlaceholder: false };
   }
   return { image: PLACEHOLDER_IMAGE, isPlaceholder: true };
 }

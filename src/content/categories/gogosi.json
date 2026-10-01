@@ -8,5 +8,6 @@
     "en": "Fluffy doughnuts, plain or filled."
   },
   "order": 11,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/gogosi-1200.webp"
 }

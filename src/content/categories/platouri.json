@@ -8,5 +8,6 @@
     "en": "Platters of assorted mini pastries."
   },
   "order": 10,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/platouri-1200.webp"
 }

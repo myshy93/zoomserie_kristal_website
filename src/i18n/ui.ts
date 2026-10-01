@@ -17,6 +17,10 @@ const ro = {
   'nav.quote': 'Cere ofertă',
   'nav.order': 'Comandă online',
   'nav.hoursLocation': 'Program și locație',
+  'nav.menu': 'Meniu',
+  'nav.main': 'Navigare principală',
+  'nav.menuClose': 'Închide meniul',
+  'nav.skip': 'Sari la conținut',
 
   'site.tagline': 'Cofetărie · Cafea · Torturi',
   'site.motto': 'Cofetărie de cartier în Berceni',
@@ -26,6 +30,7 @@ const ro = {
   'home.hero.subtitle':
     'Prăjituri, torturi și patiserie proaspătă pentru familia ta, în Berceni și în sudul Capitalei.',
   'home.hero.ctaProducts': 'Vezi produsele',
+  'home.ctaAllProducts': 'Vezi toate produsele',
   'home.hero.ctaQuote': 'Tort personalizat',
   'home.categories.title': 'Ce găsești la noi',
   'home.delivery.title': 'Livrare gratuită peste {threshold} RON',
@@ -111,6 +116,7 @@ const ro = {
 
   'cart.title': 'Coșul tău',
   'cart.nav': 'Coș',
+  'cart.navCount': 'Coș ({count})',
   'cart.addTitle': 'Alege și adaugă în coș',
   'cart.unit': 'Se vinde la',
   'cart.add': 'Adaugă în coș',
@@ -236,6 +242,10 @@ const en: Record<UiKey, string> = {
   'nav.quote': 'Request a quote',
   'nav.order': 'Order online',
   'nav.hoursLocation': 'Hours & location',
+  'nav.menu': 'Menu',
+  'nav.main': 'Main navigation',
+  'nav.menuClose': 'Close menu',
+  'nav.skip': 'Skip to content',
 
   'site.tagline': 'Pâtisserie · Coffee · Cakes',
   'site.motto': 'Neighbourhood cakery in Berceni',
@@ -245,6 +255,7 @@ const en: Record<UiKey, string> = {
   'home.hero.subtitle':
     'Fresh pastries, cakes and baked goods for your family, in Berceni and south Bucharest.',
   'home.hero.ctaProducts': 'See our products',
+  'home.ctaAllProducts': 'See all our products',
   'home.hero.ctaQuote': 'Custom cake',
   'home.categories.title': 'What we make',
   'home.delivery.title': 'Free delivery over {threshold} RON',
@@ -330,6 +341,7 @@ const en: Record<UiKey, string> = {
 
   'cart.title': 'Your cart',
   'cart.nav': 'Cart',
+  'cart.navCount': 'Cart ({count})',
   'cart.addTitle': 'Choose and add to cart',
   'cart.unit': 'Sold by',
   'cart.add': 'Add to cart',

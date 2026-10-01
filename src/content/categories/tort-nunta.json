@@ -8,5 +8,6 @@
     "en": "Wedding cakes designed to your wishes, quoted on request."
   },
   "order": 12,
-  "photosReady": false
+  "photosReady": true,
+  "image": "/images/categories/tort-nunta-1200.webp"
 }

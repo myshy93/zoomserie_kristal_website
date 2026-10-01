@@ -21,7 +21,7 @@ const postalAddress = {
 } as const;
 
 export const site = {
-  name: 'Zoomserie', // TODO: placeholder brand name
+  name: 'Zoomserie Kristal', // TODO: placeholder brand name
   url: 'https://zoomserie.ro', // TODO: real domain once the brand name is confirmed
   phone: '+40 755 041 450', // TODO
   whatsappNumber: '40755041450', // international format, no "+" (used in wa.me links)
