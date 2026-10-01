@@ -38,6 +38,9 @@ export const site = {
     { days: [2, 3, 4, 5, 6], opens: '09:00', closes: '20:00' },
     { days: [7], opens: '10:00', closes: '16:00' },
   ] as OpeningHours[],
+  // Shopfront photo on the home page: '-1200' file; '-640' and '-full' variants sit next to it.
+  // TODO: currently an AI-generated stand-in; replace with a real photo of the entrance before launch.
+  locationPhoto: '/images/location-1200.webp' as string | null,
   instagramUrl: 'https://www.instagram.com/', // TODO
   freeDeliveryThresholdRon: 200,
   legal: {

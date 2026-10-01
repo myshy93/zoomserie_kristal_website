@@ -1,0 +1,70 @@
+---
+// "Come and see us": for visitors who are not ready to order online. Shopfront photo (a placeholder
+// until site.locationPhoto is set), address, live opening hours and one-tap directions.
+import OpeningHours from './OpeningHours.astro';
+import { site } from '../config/site';
+import { directionsUrls } from '../lib/location';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { google, waze } = directionsUrls();
+const photo = site.locationPhoto;
+const photoSrcset = photo
+  ? `${photo.replace('-1200.', '-640.')} 640w, ${photo} 1200w, ${photo.replace('-1200.', '-full.')} 1448w`
+  : undefined;
+---
+
+<section class="border-t border-ink/10 bg-ivory" aria-labelledby="home-visit">
+  <div class="mx-auto grid max-w-7xl lg:grid-cols-2">
+    <figure class="relative aspect-[4/3] bg-sand lg:aspect-auto lg:min-h-[32rem]">
+      {
+        photo ? (
+          <img
+            src={photo}
+            srcset={photoSrcset}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            alt={t('home.visit.photoAlt', { name: site.name })}
+            loading="lazy"
+            class="absolute inset-0 size-full object-cover"
+          />
+        ) : (
+          <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center">
+            <svg viewBox="0 0 24 24" class="size-12 text-bronze" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 21s-6.5-6.1-6.5-11A6.5 6.5 0 0 1 12 3.5 6.5 6.5 0 0 1 18.5 10c0 4.9-6.5 11-6.5 11z"></path>
+              <circle cx="12" cy="10" r="2.3"></circle>
+            </svg>
+            <p class="caps text-[10px] text-muted">{t('product.photoSoon')}</p>
+          </div>
+        )
+      }
+    </figure>
+
+    <div class="flex flex-col justify-center px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
+      <h2 id="home-visit" class="text-4xl sm:text-5xl">{t('home.visit.title')}</h2>
+      <p class="mt-3 max-w-md font-serif text-xl leading-snug text-muted">{t('home.visit.intro')}</p>
+
+      <div class="mt-8">
+        <h3 class="caps text-muted">{t('home.visit.address')}</h3>
+        <p class="mt-2 font-serif text-xl leading-snug">{site.address}</p>
+      </div>
+
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <a href={google} target="_blank" rel="noopener" class="btn btn-primary px-9 py-3.5 font-sans text-xs tracking-[0.2em] uppercase">
+          {t('contact.driveGoogle')}
+        </a>
+        <a href={waze} target="_blank" rel="noopener" class="btn btn-outline px-9 py-3.5">
+          {t('contact.driveWaze')}
+        </a>
+      </div>
+
+      <div class="mt-8 max-w-sm">
+        <OpeningHours lang={lang} headingTag="h3" grouped />
+      </div>
+    </div>
+  </div>
+</section>
