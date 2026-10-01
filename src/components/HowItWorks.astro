@@ -1,0 +1,75 @@
+---
+// "How to order": two three-step tracks, one for catalog orders and one for quotes. The steps are real
+// sequences, so they are numbered; the line joins each numeral to the next.
+import { site } from '../config/site';
+import { path, useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const tracks = [
+  {
+    title: t('home.how.order.title'),
+    steps: [t('home.how.order.step1'), t('home.how.order.step2'), t('home.how.order.step3')],
+    href: path('products', lang),
+    cta: t('home.hero.ctaProducts'),
+    primary: true,
+  },
+  {
+    title: t('home.how.quote.title'),
+    steps: [t('home.how.quote.step1'), t('home.how.quote.step2'), t('home.how.quote.step3')],
+    href: path('quote', lang),
+    cta: t('nav.quote'),
+    primary: false,
+  },
+];
+
+const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(t('whatsapp.prefill'))}`;
+---
+
+<section class="border-t border-ink/10 bg-ivory px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20" aria-labelledby="home-how">
+  <div class="mx-auto max-w-5xl">
+    <div class="text-center">
+      <h2 id="home-how" class="text-4xl sm:text-5xl">{t('home.how.title')}</h2>
+      <p class="mx-auto mt-3 max-w-md font-serif text-xl leading-snug text-muted">{t('home.how.intro')}</p>
+    </div>
+
+    <div class="mt-10 grid gap-12 md:mt-12 md:grid-cols-2 md:gap-16">
+      {
+        tracks.map((track) => (
+          <div class="flex flex-col">
+            <h3 class="text-3xl md:min-h-[2.4em]">{track.title}</h3>
+            <span class="my-4 block h-px w-16 bg-ink/40" aria-hidden="true"></span>
+            <ol class="flex-1" role="list">
+              {track.steps.map((step, i) => (
+                <li class="relative grid grid-cols-[2.25rem_1fr] gap-3 pb-5 after:absolute after:top-10 after:bottom-1 after:left-[0.55rem] after:w-px after:bg-bronze-light/70 last:pb-0 last:after:hidden">
+                  <span class="font-serif text-4xl leading-none font-medium text-bronze lining-nums" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                  <p class="font-serif text-xl leading-snug">{step}</p>
+                </li>
+              ))}
+            </ol>
+            <div class="mt-6 md:mt-8">
+              <a href={track.href} class:list={['btn px-9 py-3.5 font-sans text-xs tracking-[0.2em] uppercase', track.primary ? 'btn-primary' : 'btn-outline']}>
+                {track.cta}
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="mt-10 text-center text-sm leading-relaxed text-muted md:mt-14">
+      {t('home.how.delivery', { threshold: site.freeDeliveryThresholdRon })}
+      <span class="block sm:ml-1 sm:inline">
+        {t('home.how.questions')}{' '}
+        <a href={whatsappHref} target="_blank" rel="noopener" class="link inline-block py-3">{t('home.how.whatsapp')}</a>
+      </span>
+    </p>
+  </div>
+</section>
